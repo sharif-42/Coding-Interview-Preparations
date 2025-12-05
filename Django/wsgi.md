@@ -198,3 +198,6 @@ In WSGI, the entire web application must be exposed as one callable object—a f
 The WSGI server invokes this callable for every HTTP request, passing environ (request data) and start_response (to begin the response).
 All the application logic—middleware, routing, views—happens inside this single callable.
 This simple contract allows any WSGI server to run any WSGI-compliant framework.
+
+- WSGI is `Sysnchronus` and `Blocking` in nature. So it serves one request at a time.
+- Parallel request handling is not possible.
