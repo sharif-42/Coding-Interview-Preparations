@@ -1,0 +1,1 @@
+Below is a step-by-step request lifecycle diagram for Django’s `ASGI (Asynchronous Server Gateway Interface)` flow, including all major components.
