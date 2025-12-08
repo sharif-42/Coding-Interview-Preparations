@@ -84,3 +84,12 @@ These provide:
 - Less overhead than Django’s middleware-heavy request pipeline
 
 > **Request parsing, validation, routing are all faster.**
+
+
+## Why FastAPI is fast to code?
+
+- Automatic input validation
+    - Tight couple with Pydantic
+    - Will automatically check the data types of input.
+- Auto-Generated Interactive Documentation.
+- Seamless Integration with Modern Ecosystem(ML/DL Libraries, OAuth, JWT, SQL Alchemy, Docker, Kubernetes etc.)
