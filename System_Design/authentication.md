@@ -299,3 +299,160 @@ If a hacker steals a user’s JWT, they can impersonate that user until the toke
 
 - **Short Lifespans**: We make the JWT expire very quickly (e.g., 5 to 15 minutes). If it is stolen, the thief only has a 5-minute window.
 - **Refresh Tokens**: We give the user two tokens. A short-lived Access Token (JWT) and a long-lived Refresh Token. When the Access Token expires, the app uses the Refresh Token to ask for a new one. The Refresh Token is stored in a database, so we can revoke that one if needed.
+
+
+## 5. OAuth 2.0
+So far, we have talked about logging into your app.
+
+But what if you want to let a user log in using their Google account? Or what if you want your app to be able to post to a user’s LinkedIn profile? You could ask the user for their Google password, log in as them, and do the work.
+
+Do not do this. This is a terrible idea.
+
+If you store their Google password and you get hacked, everyone’s Google account is compromised. Plus, users should never trust your app with their main Google password.
+
+We need a way to get Delegated Access.
+
+We need permission to do some things on the user’s behalf without taking over their whole identity. This is OAuth 2.0.
+
+![Auth 2.0](/System_Design/images/auth_2_0.webp)
+
+### Example: The Valet Key
+Many luxury cars have a special key called a Valet Key.
+
+- The **Master Key** (Password) opens the doors, starts the engine, opens the trunk, and unlocks the glovebox.
+- The **Valet Key** (OAuth Token) only opens the door and starts the engine. It does not open the trunk or glovebox.
+- When you go to a fancy restaurant, you give the valet the Valet Key.
+- You are delegating access.
+
+You are saying, ***I authorize you to drive my car, but I do not authorize you to steal my sunglasses from the glovebox.***
+
+### The Roles in OAuth
+OAuth introduces a cast of characters :
+
+- **The Resource Owner**: That is You (the user). You own your data (your photos, your contacts).
+- **The Client**: That is the App you are trying to use (e.g., a photo printing website).
+- **The Authorization Server**: That is the Security Guard (e.g., Google or Facebook). They hold the keys.
+- **The Resource Server**: That is the Vault where the data lives (e.g., the Google Photos API).
+
+### Authorization Code Flow
+When you click **Connect with Google,** the following things happen:
+
+- **Redirect**: The app redirects you to Google. *Hey Google, this user wants to let me access their photos.*
+- **Login & Consent**: You see a screen on Google.com. It asks, *Do you want to allow ‘PhotoPrinterApp’ to access your Photos?* This is the **Scope**. You are deciding how much power the Valet Key has.
+- **The Code**: You click *Yes.* Google does not send a token to the app yet (that would be unsafe to send to a browser). Google redirects you back to the app with a temporary, one-time code in the URL.
+- **The Exchange**: The app’s server sees this code. It talks to Google’s server directly (server-to-server). It says, “I have this code from Alice, and here is my own secret ID. Can I have the token?”
+- **The Token**: Google verifies the code and the app’s secret. Then it hands over the **Access Token (the Valet Key)**.
+
+Now the app can show Google that token and get your photos, but it can’t read your emails or change your password.
+
+### When to use OAuth 2.0:
+
+- You want users to grant your app access to their data on another service (Google, Facebook, GitHub).
+- You have a complex system where different parts need different levels of permission (Scopes).
+- You are building a public API for other developers to use.
+
+## 6. Single Sign-On (SSO) & OpenID Connect (OIDC)
+We have covered logging in directly (Basic/Sessions/JWT) and delegated access (OAuth).
+
+The final piece of the puzzle is **Single Sign-On (SSO)**.
+
+In a large company, you might use Slack, Zoom, Jira, and Salesforce.
+
+It would be annoying to have four different usernames and passwords. It would be a nightmare for IT to manage.
+
+If you leave the company, they would have to delete your account in four different places.
+
+SSO solves this.
+
+You log in once, and you get access to everything.
+
+![SSO](/System_Design/images/sso_oidc.webp)
+
+### Example: The Festival Wristband
+Think of a music festival or a club with multiple VIP areas.
+
+- **The ID Check**: You arrive at the main gate. You show your ID to the security staff. This is the Identity Provider (IdP) (like Okta or Google).
+- **The Wristband**: Once they verify you, they put a wristband on your arm.
+- **The Tents**: You walk into the “Jira Tent.” The bouncer there does not ask for your ID. They just look at your wristband. “Oh, you have a wristband from the main gate? Come on in.” You go to the “Slack Tent.” Same thing.
+
+The wristband is trusted by all the tents because they trust the main gate security.
+
+### Enter OpenID Connect (OIDC)
+Here is a messy bit of history.
+
+OAuth 2.0 was designed for Authorization (accessing resources), not Authentication (logging in).
+
+But developers started hacking OAuth to use it for login (”Sign in with Facebook”). This was often insecure.
+
+So, a group of smart engineers built a layer on top of OAuth 2.0 specifically for identity. This is **OpenID Connect (OIDC)**.
+
+OIDC adds a new type of token to the OAuth flow: the ID Token.
+
+- **Access Token**: The Valet Key (What can I do?).
+- **ID Token**: The Badge (Who am I?).
+
+The ID Token is a JWT that contains information about the user (Name, Email, Photo). It allows the client app to know who the user is in a standardized way.
+
+### When to use SSO/OIDC:
+
+- You are building an app for a company that uses an IdP (like Okta, Azure AD, or Auth0).
+- You want to add “Log in with Google” or “Log in with Apple” to your app.
+- You have multiple apps in your ecosystem and want a unified login experience.
+
+## Making the Decision: A Cheat Sheet for Junior Developers
+We have covered a lot of ground. You might still be looking at that ticket in your backlog wondering, “Okay, but which one do I use?”
+
+Here is a simplified decision tree to help you choose.
+
+**Scenario 1: You are building a simple script to run on your laptop that talks to a server on your own private network.**
+
+- Use: Basic Auth (over HTTPS). It is fast and easy to implement.
+
+**Scenario 2: You are building a classic web app (like a Django or Rails app) that renders HTML on the server.**
+
+- Use: Session Auth. It is secure, battle-tested, and frameworks support it out of the box. You do not need the complexity of tokens.
+
+**Scenario 3: You are building a Single Page App (React/Vue) with a separate backend API, or a Mobile App.**
+
+- Use: JWT (Bearer Auth). This allows your API to be stateless and scale easily. Just remember to handle token storage securely (HttpOnly cookies are best for web).
+
+**Scenario 4: You want your users to be able to log in with their existing Google or GitHub accounts.**
+
+- Use: OAuth 2.0 + OIDC. Do not roll your own crypto. Use a library like Passport.js or a service like Auth0/Firebase.
+
+**Scenario 5: You are building a system for a large enterprise where employees need access to many different internal tools.**
+
+- Use: SSO (SAML or OIDC). This is mandatory for corporate security compliance.
+
+## Conclusion
+Authentication feels overwhelming because it tries to solve a massive problem: Trust. How do we trust strangers over the internet?
+
+- Basic Auth trusts the secret code you whisper.
+- Sessions trust the temporary key card the hotel gave you.
+- JWTs trust the holographic signature on the document you carry.
+- OAuth trusts the permission you gave to a helper.
+- SSO trusts the security guard at the front gate.
+
+As a developer, you do not need to memorize every line of the RFC specifications. You just need to understand the trade-offs.
+
+- **Security is not a feature. It is the foundation.**
+- **HTTPS is mandatory. None of these methods are safe without it.**
+- **Don’t reinvent the wheel. Use established libraries. Do not try to write your own JWT signing function or your own OAuth handler from scratch. You will make a mistake, and that mistake will be a vulnerability.** 
+
+Next time you look at that login ticket, do not panic. Look at your architecture. Ask yourself: **Do I need a Hotel Key or a Passport?**
+Once you answer that, the rest is just code.
+
+### Key Takeaways:
+
+- AuthN is who you are; AuthZ is what you can do.
+- Basic Auth is simple but sends passwords constantly; use only for internal tools.
+- Sessions are great for simple websites but struggle to scale across multiple servers.
+- JWTs are the standard for modern APIs because they are stateless, but they are harder to revoke.
+- Base64 is NOT encryption. Never hide secrets in a Base64 string or a JWT payload.
+- OAuth 2.0 is for delegated access (letting an app access your data).
+- OIDC is the layer on top of OAuth that handles user login (Identity).
+
+
+## References
+
+1. [The Complete Beginner Guide to Auth: Basic Auth, Bearer Tokens, OAuth2, JWT and SSO](https://designgurus.substack.com/p/the-complete-beginner-guide-to-auth)
