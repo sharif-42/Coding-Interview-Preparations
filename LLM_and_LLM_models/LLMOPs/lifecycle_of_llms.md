@@ -99,7 +99,7 @@ The development phase is a cyclic process of building and improving the applicat
 
 ![Development Cycle](/LLM_and_LLM_models/LLMOPs/images/development_cycle.png)
 
-**Prompt Engineering**
+### Prompt Engineering
 
 Prompt engineering enhances prompts in three ways
 - By giving clear instructions, we can improve performance by getting more accurate and helpful responses from LLM's
@@ -133,4 +133,75 @@ Once we've gathered a collection of promising prompts, we're ready to proceed. W
 
 ![Prompt Template](/LLM_and_LLM_models/LLMOPs/images/prompt_template.png)
 
-## Chains and Agents
+### Chains and Agents
+While prompts are central to any application, chains and agents provide its flow and structure.
+
+Let's go back to our calorie prediction template. It requires examples, and an input which is the dish description. But how do we find examples? Suppose we have a database of dishes. We need to find similar dishes based on the description. Also, the application's output should be converted to a number for calorie calculation. To achieve this, we'll go through a few steps: 
+- receiving input, 
+- searching examples, 
+- prompt creation, 
+- output retrieval, 
+- and output parsing. 
+
+We can use chains or agents to build this functionality.
+
+**Chains**
+
+A chain, also known as a pipeline or a flow, consists of connected steps that take inputs and produce outputs. 
+
+For our example, we start with a dish description. First, we find similar dishes in the database. Next, we combine the dish description and examples with the prompt template. This prompt is then given to the LLM. From the output, we extract a number.This process demonstrates a chain in action.
+
+![Chain](/LLM_and_LLM_models/LLMOPs/images/chain.png)
+
+The need for chain
+
+- Develop sophisticated applications that interface with our own systems. 
+- Establish a modular design, enhancing scalability and operational efficiency as our system grows. 
+- Unlock endless possibilities for customization.
+
+**Agents** 
+
+Say our dish calorie prediction isn't giving optimal results, likely due to insufficient details like ingredients and quantities. Suppose we have the option to look up more information about a dish. We now have two actions: searching for extra examples, or retrieving additional dish information. This is where agents shine.
+
+Agent consist of 
+- Multiple actions(or tools)
+- an LLM deciding which action to take 
+
+Useful when
+- There are many actions.
+- The optimal sequence of steps is unknown.
+- Uncertain about the inputs.
+
+![Agent](/LLM_and_LLM_models/LLMOPs/images/agents.png)
+
+Diffent between agents and chains.
+|                   |  Chains               |     Agent  |
+|------------        |--------------------   |------------|
+| Nature        | deterministic         | Adaptive   |
+| Complexity    | Low                   | Hight      |
+| flexiability  | Low                   | Hight      |
+| Risk          | Lower due t0Predictability                | Higher due to adaptibility    |
+
+So the development cycle now like following
+
+### Rag vs Finetuning.
+RAG is a common LLM design pattern, combining the model's reasoning abilities with external factual knowledge.
+
+RAG consists of three steps in a chain: 
+- Retrieve related documents, 
+- Augment the prompt with these documents, 
+- Generate the output
+
+This allows the LLM to use external data for better results. The retrieve step is crucial, as dealing with large knowledge bases can be challenging. Thankfully, there are ready-made solutions, often implemented using vector databases.
+
+**RAG-chain with vector database**
+
+Let's create a RAG-chain with vector databases. 
+
+Retrieve.
+- First, we convert the input into a numerical representation called an embedding, which captures its meaning. Similar meanings yield similar embeddings. Embeddings are created using pre-trained models. 
+- Next, we search our vector database containing all embeddings. We compare the input embedding with those of the documents and calculate their similarity. 
+- Finally, we retrieve the most similar documents.
+
+Augment
+- combines the input with these documents to create the final prompt.
