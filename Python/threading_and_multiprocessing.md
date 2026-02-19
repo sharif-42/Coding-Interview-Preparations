@@ -269,4 +269,4 @@ if __name__ == '__main__':
 2. [Python Asyncio Tutorial: A Complete Guide
 ](https://www.lambdatest.com/blog/python-asyncio/)
 3. [Python AsyncIO](https://faun.pub/if-you-write-python-you-must-understand-asyncio-b38406114e14)
-4. https://www.xanthium.in/creating-threads-sharing-synchronizing-data-using-queue-lock-semaphore-python
+4. [Creating and Sharing data between Python threads for the Absolute Beginner](https://www.xanthium.in/creating-threads-sharing-synchronizing-data-using-queue-lock-semaphore-python)
