@@ -114,7 +114,9 @@ Technical name: `kube-proxy`
 
 ## Architecture Diagram
 ![Cluster Architecture](/DevOps/Kubernetes/images/Kubernetes/kubernetes-cluster-architecture.svg)
+![Cluster Architecture 2](/DevOps/Kubernetes/images/Kubernetes/kubernetes_architecture.gif)
 
 
 ## References
 1. [Cluster Architecture](https://kubernetes.io/docs/concepts/architecture/)
+1. [Kubernetes Architecture](https://saimanasak.medium.com/understanding-kubernetes-architecture-add159d720fd)
