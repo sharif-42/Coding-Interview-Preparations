@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow1" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <filter id="shadow1" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="340" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Forward Proxy</text>
+  <text x="450" y="60" text-anchor="middle" font-size="13" fill="#64748b">Client-side proxy — hides client identity from servers</text>
+
+  <!-- Clients Group -->
+  <rect x="30" y="100" width="180" height="200" rx="14" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.5" filter="url(#shadow1)"/>
+  <text x="120" y="128" text-anchor="middle" font-size="14" font-weight="600" fill="#0369a1">Clients</text>
+
+  <!-- Client icons -->
+  <rect x="55" y="145" width="130" height="36" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="120" y="169" text-anchor="middle" font-size="13" fill="#1e3a5f">🖥️ Client A</text>
+
+  <rect x="55" y="192" width="130" height="36" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="120" y="216" text-anchor="middle" font-size="13" fill="#1e3a5f">💻 Client B</text>
+
+  <rect x="55" y="239" width="130" height="36" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="120" y="263" text-anchor="middle" font-size="13" fill="#1e3a5f">📱 Client C</text>
+
+  <!-- Arrow: Clients → Proxy -->
+  <line x1="210" y1="200" x2="310" y2="200" stroke="#475569" stroke-width="2" marker-end="url(#arrow1)"/>
+  <text x="260" y="190" text-anchor="middle" font-size="11" fill="#64748b">requests</text>
+
+  <!-- Forward Proxy Box -->
+  <rect x="320" y="140" width="180" height="120" rx="14" fill="#fef3c7" stroke="#fbbf24" stroke-width="2" filter="url(#shadow1)"/>
+  <text x="410" y="185" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">🛡️ Forward</text>
+  <text x="410" y="207" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">Proxy</text>
+  <text x="410" y="234" text-anchor="middle" font-size="10" fill="#a16207">Filters · Caches · Anonymizes</text>
+
+  <!-- Arrow: Proxy → Internet -->
+  <line x1="500" y1="200" x2="575" y2="200" stroke="#475569" stroke-width="2" marker-end="url(#arrow1)"/>
+
+  <!-- Internet Cloud -->
+  <ellipse cx="630" cy="200" rx="50" ry="35" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="630" y="196" text-anchor="middle" font-size="13" fill="#475569">🌐</text>
+  <text x="630" y="213" text-anchor="middle" font-size="12" fill="#475569">Internet</text>
+
+  <!-- Arrow: Internet → Server -->
+  <line x1="680" y1="200" x2="740" y2="200" stroke="#475569" stroke-width="2" marker-end="url(#arrow1)"/>
+
+  <!-- Server -->
+  <rect x="750" y="150" width="120" height="100" rx="14" fill="#dcfce7" stroke="#86efac" stroke-width="1.5" filter="url(#shadow1)"/>
+  <text x="810" y="193" text-anchor="middle" font-size="14" font-weight="600" fill="#166534">🖧 Server</text>
+  <text x="810" y="214" text-anchor="middle" font-size="10" fill="#15803d">Sees proxy IP only</text>
+
+  <!-- Labels -->
+  <text x="120" y="308" text-anchor="middle" font-size="11" font-weight="600" fill="#0369a1">✓ Client knows proxy</text>
+  <text x="810" y="274" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">✗ Server doesn't know</text>
+  <text x="810" y="290" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">the real client</text>
+</svg>

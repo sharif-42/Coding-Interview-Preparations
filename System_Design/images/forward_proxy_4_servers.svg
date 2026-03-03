@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="aFP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="aFPo" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#d97706"/>
+    </marker>
+    <marker id="aFPr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#dc2626"/>
+    </marker>
+    <filter id="sFP" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="640" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="480" y="35" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Forward Proxy — Corporate Network with 4 Destination Servers</text>
+  <text x="480" y="55" text-anchor="middle" font-size="12" fill="#64748b">Employees access external services through a Squid forward proxy — servers only see the proxy's IP (198.51.100.5)</text>
+
+  <!-- ============ CORPORATE NETWORK BOX ============ -->
+  <rect x="20" y="70" width="455" height="550" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5" filter="url(#sFP)"/>
+  <text x="248" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">🏢 Corporate Network (Private: 192.168.1.x)</text>
+
+  <!-- Employees -->
+  <rect x="40" y="110" width="200" height="295" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="140" y="135" text-anchor="middle" font-size="13" font-weight="600" fill="#0369a1">Employees (Clients)</text>
+
+  <rect x="55" y="148" width="170" height="46" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="140" y="168" text-anchor="middle" font-size="12" fill="#1e3a5f">🖥️ Alice — Developer</text>
+  <text x="140" y="184" text-anchor="middle" font-size="9" fill="#64748b">192.168.1.10</text>
+
+  <rect x="55" y="202" width="170" height="46" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="140" y="222" text-anchor="middle" font-size="12" fill="#1e3a5f">💻 Bob — Designer</text>
+  <text x="140" y="238" text-anchor="middle" font-size="9" fill="#64748b">192.168.1.11</text>
+
+  <rect x="55" y="256" width="170" height="46" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="140" y="276" text-anchor="middle" font-size="12" fill="#1e3a5f">📱 Carol — Manager</text>
+  <text x="140" y="292" text-anchor="middle" font-size="9" fill="#64748b">192.168.1.12</text>
+
+  <rect x="55" y="310" width="170" height="46" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="140" y="330" text-anchor="middle" font-size="12" fill="#1e3a5f">🖥️ Dave — Intern</text>
+  <text x="140" y="346" text-anchor="middle" font-size="9" fill="#64748b">192.168.1.13</text>
+
+  <!-- Arrows: Employees → Proxy -->
+  <line x1="240" y1="170" x2="280" y2="250" stroke="#475569" stroke-width="1.5" marker-end="url(#aFP)"/>
+  <line x1="240" y1="224" x2="280" y2="258" stroke="#475569" stroke-width="1.5" marker-end="url(#aFP)"/>
+  <line x1="240" y1="278" x2="280" y2="272" stroke="#475569" stroke-width="1.5" marker-end="url(#aFP)"/>
+  <line x1="240" y1="332" x2="280" y2="285" stroke="#475569" stroke-width="1.5" marker-end="url(#aFP)"/>
+
+  <!-- Forward Proxy (Squid) -->
+  <rect x="285" y="200" width="175" height="165" rx="14" fill="#fef3c7" stroke="#fbbf24" stroke-width="2" filter="url(#sFP)"/>
+  <text x="372" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">🛡️ Squid Forward</text>
+  <text x="372" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">Proxy</text>
+  <text x="372" y="266" text-anchor="middle" font-size="10" fill="#a16207">Internal: 192.168.1.1</text>
+  <text x="372" y="280" text-anchor="middle" font-size="10" fill="#a16207">External: 198.51.100.5</text>
+
+  <line x1="300" y1="290" x2="445" y2="290" stroke="#fbbf24" stroke-width="0.6"/>
+  <text x="300" y="308" font-size="9" fill="#92400e">✓ Log all requests</text>
+  <text x="300" y="322" font-size="9" fill="#92400e">✓ Block restricted sites</text>
+  <text x="300" y="336" font-size="9" fill="#92400e">✓ Cache responses</text>
+  <text x="300" y="350" font-size="9" fill="#92400e">✓ Hide employee IPs</text>
+
+  <!-- Policy rules -->
+  <rect x="40" y="420" width="420" height="110" rx="10" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="55" y="442" font-size="12" font-weight="600" fill="#c2410c">Proxy Rules (squid.conf)</text>
+  <rect x="50" y="452" width="400" height="70" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="0.5"/>
+  <text x="60" y="470" font-size="10" font-weight="600" fill="#92400e">acl blocked_sites dstdomain .facebook.com .tiktok.com .youtube.com</text>
+  <text x="60" y="486" font-size="10" font-weight="600" fill="#92400e">http_access deny blocked_sites</text>
+  <text x="60" y="502" font-size="10" font-weight="600" fill="#92400e">http_access allow localnet</text>
+  <text x="60" y="518" font-size="10" font-weight="600" fill="#dc2626">cache_dir ufs /var/spool/squid 10000 16 256</text>
+
+  <!-- ============ INTERNET ============ -->
+  <ellipse cx="530" cy="280" rx="40" ry="30" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="530" y="276" text-anchor="middle" font-size="13" fill="#475569">🌐</text>
+  <text x="530" y="293" text-anchor="middle" font-size="11" fill="#475569">Internet</text>
+
+  <!-- Arrow: Proxy → Internet -->
+  <line x1="460" y1="275" x2="488" y2="278" stroke="#d97706" stroke-width="2.5" marker-end="url(#aFPo)"/>
+
+  <!-- ============ DESTINATION SERVERS ============ -->
+  <rect x="590" y="70" width="350" height="550" rx="14" fill="#f0fdf4" stroke="#86efac" stroke-width="1" filter="url(#sFP)"/>
+  <text x="765" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">External Servers (Public Internet)</text>
+  <text x="765" y="113" text-anchor="middle" font-size="10" fill="#15803d">Each server sees requests from 198.51.100.5 (proxy), NOT employee IPs</text>
+
+  <!-- Server 1: GitHub -->
+  <rect x="610" y="125" width="310" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="630" y="148" font-size="13" font-weight="700" fill="#166534">🖧 Server 1 — GitHub API</text>
+  <text x="630" y="166" font-size="10" fill="#15803d">IP: 140.82.121.4</text>
+  <text x="630" y="182" font-size="10" fill="#475569">Alice pushes code, Bob downloads assets</text>
+  <text x="630" y="196" font-size="9" fill="#64748b">✅ ALLOWED — developer tool</text>
+
+  <!-- Server 2: Stack Overflow -->
+  <rect x="610" y="218" width="310" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="630" y="241" font-size="13" font-weight="700" fill="#166534">🖧 Server 2 — Stack Overflow</text>
+  <text x="630" y="259" font-size="10" fill="#15803d">IP: 151.101.1.69</text>
+  <text x="630" y="275" font-size="10" fill="#475569">Alice and Carol search for solutions</text>
+  <text x="630" y="289" font-size="9" fill="#64748b">✅ ALLOWED — knowledge base</text>
+
+  <!-- Server 3: AWS S3 -->
+  <rect x="610" y="311" width="310" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="630" y="334" font-size="13" font-weight="700" fill="#166534">🖧 Server 3 — AWS S3</text>
+  <text x="630" y="352" font-size="10" fill="#15803d">IP: 52.217.44.0</text>
+  <text x="630" y="368" font-size="10" fill="#475569">Application uploads/downloads backups</text>
+  <text x="630" y="382" font-size="9" fill="#64748b">✅ ALLOWED — cloud storage</text>
+
+  <!-- Server 4: Facebook (BLOCKED) -->
+  <rect x="610" y="404" width="310" height="80" rx="10" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
+  <text x="630" y="427" font-size="13" font-weight="700" fill="#dc2626">🖧 Server 4 — Facebook</text>
+  <text x="630" y="445" font-size="10" fill="#dc2626">IP: 157.240.1.35</text>
+  <text x="630" y="461" font-size="10" fill="#475569">Dave tries to browse social media</text>
+  <text x="630" y="475" font-size="9" font-weight="600" fill="#dc2626">🚫 BLOCKED by proxy policy</text>
+
+  <!-- Arrows: Internet → Servers -->
+  <line x1="570" y1="265" x2="605" y2="165" stroke="#d97706" stroke-width="1.8" marker-end="url(#aFPo)"/>
+  <line x1="570" y1="270" x2="605" y2="258" stroke="#d97706" stroke-width="1.8" marker-end="url(#aFPo)"/>
+  <line x1="570" y1="280" x2="605" y2="351" stroke="#d97706" stroke-width="1.8" marker-end="url(#aFPo)"/>
+  <line x1="530" y1="310" x2="605" y2="444" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#aFPr)"/>
+
+  <!-- Arrow labels -->
+  <text x="580" y="202" font-size="9" fill="#d97706" font-weight="600">✅</text>
+  <text x="580" y="252" font-size="9" fill="#d97706" font-weight="600">✅</text>
+  <text x="580" y="328" font-size="9" fill="#d97706" font-weight="600">✅</text>
+  <text x="556" y="400" font-size="9" fill="#dc2626" font-weight="600">🚫</text>
+
+  <!-- What servers see -->
+  <rect x="610" y="498" width="310" height="55" rx="8" fill="#fef9c3" stroke="#fde047" stroke-width="1"/>
+  <text x="765" y="518" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">What every server sees:</text>
+  <text x="765" y="536" text-anchor="middle" font-size="11" fill="#92400e">Source IP = 198.51.100.5 (the proxy)</text>
+  <text x="765" y="548" text-anchor="middle" font-size="9" fill="#a16207">Never 192.168.1.10, .11, .12, or .13</text>
+
+  <!-- Bottom legend -->
+  <rect x="20" y="568" width="455" height="48" rx="8" fill="#fef9c3" stroke="#fde047" stroke-width="1"/>
+  <text x="248" y="588" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">What each employee's browser is configured with:</text>
+  <text x="248" y="605" text-anchor="middle" font-size="10" fill="#92400e">HTTP Proxy: 192.168.1.1:3128  (Squid default port)</text>
+</svg>

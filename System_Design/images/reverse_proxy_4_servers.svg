@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrRP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+    <marker id="arrBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <filter id="shRP" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="940" height="620" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="470" y="35" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Reverse Proxy with 4 Backend Servers — Practical Example</text>
+  <text x="470" y="56" text-anchor="middle" font-size="12" fill="#64748b">Client sees only shop.example.com (203.0.113.50) — real server IPs are completely hidden</text>
+
+  <!-- ============ DNS RESOLUTION (top) ============ -->
+  <rect x="30" y="72" width="880" height="52" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1" filter="url(#shRP)"/>
+  <text x="52" y="93" font-size="12" font-weight="600" fill="#1e40af">① DNS Resolution</text>
+  <text x="52" y="112" font-size="11" fill="#3b82f6">shop.example.com  →  A record  →  203.0.113.50  (Nginx Reverse Proxy IP, NOT a backend server)</text>
+
+  <!-- ============ CLIENT ============ -->
+  <rect x="40" y="150" width="150" height="100" rx="14" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.5" filter="url(#shRP)"/>
+  <text x="115" y="178" text-anchor="middle" font-size="14" font-weight="700" fill="#0369a1">🖥️ Client</text>
+  <text x="115" y="198" text-anchor="middle" font-size="10" fill="#0284c7">Browser / App</text>
+  <text x="115" y="215" text-anchor="middle" font-size="9" fill="#64748b">Thinks it's talking to</text>
+  <text x="115" y="228" text-anchor="middle" font-size="9" font-weight="600" fill="#64748b">shop.example.com</text>
+  <text x="115" y="240" text-anchor="middle" font-size="9" fill="#64748b">203.0.113.50</text>
+
+  <!-- Arrow: Client → Reverse Proxy -->
+  <line x1="190" y1="200" x2="310" y2="200" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrBlue)"/>
+  <text x="250" y="190" text-anchor="middle" font-size="10" font-weight="600" fill="#2563eb">HTTPS request</text>
+  <text x="250" y="218" text-anchor="middle" font-size="9" fill="#64748b">GET /api/products</text>
+
+  <!-- ============ REVERSE PROXY (Nginx) ============ -->
+  <rect x="320" y="135" width="220" height="215" rx="16" fill="#ede9fe" stroke="#a78bfa" stroke-width="2" filter="url(#shRP)"/>
+  <text x="430" y="163" text-anchor="middle" font-size="15" font-weight="700" fill="#5b21b6">🛡️ Nginx Reverse Proxy</text>
+  <text x="430" y="182" text-anchor="middle" font-size="11" fill="#7c3aed">IP: 203.0.113.50</text>
+
+  <line x1="340" y1="192" x2="520" y2="192" stroke="#c4b5fd" stroke-width="0.8"/>
+
+  <text x="340" y="210" font-size="10" fill="#5b21b6">② Terminates SSL/TLS</text>
+  <text x="340" y="226" font-size="10" fill="#5b21b6">③ Inspects the request path</text>
+  <text x="340" y="242" font-size="10" fill="#5b21b6">④ Applies routing rules:</text>
+
+  <rect x="345" y="250" width="180" height="85" rx="6" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="0.8"/>
+  <text x="355" y="267" font-size="9" font-weight="600" fill="#6d28d9">location /api/       → upstream api_servers</text>
+  <text x="355" y="283" font-size="9" font-weight="600" fill="#6d28d9">location /static/    → Server 3 (CDN)</text>
+  <text x="355" y="299" font-size="9" font-weight="600" fill="#6d28d9">location /uploads/   → Server 4 (Storage)</text>
+  <text x="355" y="315" font-size="9" font-weight="600" fill="#6d28d9">location /           → upstream web_servers</text>
+
+  <!-- ============ BACKEND SERVERS ============ -->
+  <rect x="620" y="76" width="290" height="490" rx="14" fill="#f0fdf4" stroke="#86efac" stroke-width="1" filter="url(#shRP)"/>
+  <text x="765" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">Backend Servers (Private Network)</text>
+  <text x="765" y="118" text-anchor="middle" font-size="10" fill="#15803d">Not accessible from the public internet</text>
+
+  <!-- Server 1 -->
+  <rect x="640" y="132" width="250" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="660" y="154" font-size="13" font-weight="700" fill="#166534">🖧 Server 1 — API (Primary)</text>
+  <text x="660" y="172" font-size="10" fill="#15803d">IP: 10.0.1.10 (private)</text>
+  <text x="660" y="188" font-size="10" fill="#475569">Handles: /api/* requests</text>
+  <text x="660" y="202" font-size="9" fill="#64748b">Django REST Framework · Port 8000</text>
+
+  <!-- Server 2 -->
+  <rect x="640" y="222" width="250" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="660" y="244" font-size="13" font-weight="700" fill="#166534">🖧 Server 2 — API (Replica)</text>
+  <text x="660" y="262" font-size="10" fill="#15803d">IP: 10.0.1.11 (private)</text>
+  <text x="660" y="278" font-size="10" fill="#475569">Handles: /api/* requests (load shared)</text>
+  <text x="660" y="292" font-size="9" fill="#64748b">Django REST Framework · Port 8000</text>
+
+  <!-- Server 3 -->
+  <rect x="640" y="312" width="250" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="660" y="334" font-size="13" font-weight="700" fill="#166534">🖧 Server 3 — Static / CDN</text>
+  <text x="660" y="352" font-size="10" fill="#15803d">IP: 10.0.1.12 (private)</text>
+  <text x="660" y="368" font-size="10" fill="#475569">Handles: /static/* CSS, JS, images</text>
+  <text x="660" y="382" font-size="9" fill="#64748b">Nginx serving files · Port 80</text>
+
+  <!-- Server 4 -->
+  <rect x="640" y="402" width="250" height="80" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="660" y="424" font-size="13" font-weight="700" fill="#166534">🖧 Server 4 — File Storage</text>
+  <text x="660" y="442" font-size="10" fill="#15803d">IP: 10.0.1.13 (private)</text>
+  <text x="660" y="458" font-size="10" fill="#475569">Handles: /uploads/* user files</text>
+  <text x="660" y="472" font-size="9" fill="#64748b">MinIO / S3-compatible · Port 9000</text>
+
+  <!-- Arrows from Proxy to Servers -->
+  <line x1="540" y1="200" x2="635" y2="172" stroke="#16a34a" stroke-width="2" marker-end="url(#arrGreen)"/>
+  <line x1="540" y1="220" x2="635" y2="262" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="540" y1="280" x2="635" y2="352" stroke="#16a34a" stroke-width="2" marker-end="url(#arrGreen)"/>
+  <line x1="540" y1="310" x2="635" y2="442" stroke="#16a34a" stroke-width="2" marker-end="url(#arrGreen)"/>
+
+  <!-- Labels on arrows -->
+  <text x="575" y="168" font-size="9" fill="#16a34a" font-weight="600">/api/*</text>
+  <text x="575" y="258" font-size="9" fill="#16a34a">/api/* (LB)</text>
+  <text x="568" y="330" font-size="9" fill="#16a34a" font-weight="600">/static/*</text>
+  <text x="558" y="400" font-size="9" fill="#16a34a" font-weight="600">/uploads/*</text>
+
+  <!-- ============ BOTTOM: Key insight ============ -->
+  <rect x="30" y="507" width="580" height="42" rx="10" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+  <text x="45" y="525" font-size="11" font-weight="600" fill="#92400e">⑤ Response flows back: Backend → Nginx → Client</text>
+  <text x="45" y="540" font-size="10" fill="#a16207">The client only ever sees responses from 203.0.113.50 — never 10.0.1.x</text>
+
+  <!-- Legend -->
+  <rect x="30" y="558" width="880" height="50" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8"/>
+  <text x="50" y="578" font-size="11" font-weight="600" fill="#475569">Legend:</text>
+  <line x1="110" y1="575" x2="140" y2="575" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="145" y="580" font-size="10" fill="#475569">Client → Proxy (public)</text>
+  <line x1="300" y1="575" x2="330" y2="575" stroke="#16a34a" stroke-width="2"/>
+  <text x="335" y="580" font-size="10" fill="#475569">Proxy → Server (private)</text>
+  <line x1="510" y1="575" x2="540" y2="575" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="545" y="580" font-size="10" fill="#475569">Load-balanced (round robin between S1 &amp; S2)</text>
+  <text x="50" y="598" font-size="10" fill="#94a3b8">All 10.0.1.x addresses are private — unreachable from the internet. Only the reverse proxy (203.0.113.50) is publicly exposed.</text>
+</svg>

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <filter id="shadow3" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="420" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Load Balancer</text>
+  <text x="450" y="60" text-anchor="middle" font-size="13" fill="#64748b">Distributes traffic across multiple servers for high availability &amp; performance</text>
+
+  <!-- Clients Group -->
+  <rect x="30" y="90" width="160" height="280" rx="14" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.5" filter="url(#shadow3)"/>
+  <text x="110" y="118" text-anchor="middle" font-size="14" font-weight="600" fill="#0369a1">Clients</text>
+
+  <rect x="48" y="132" width="124" height="32" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="110" y="154" text-anchor="middle" font-size="12" fill="#1e3a5f">🖥️ User A</text>
+
+  <rect x="48" y="174" width="124" height="32" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="110" y="196" text-anchor="middle" font-size="12" fill="#1e3a5f">💻 User B</text>
+
+  <rect x="48" y="216" width="124" height="32" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="110" y="238" text-anchor="middle" font-size="12" fill="#1e3a5f">📱 User C</text>
+
+  <rect x="48" y="258" width="124" height="32" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="110" y="280" text-anchor="middle" font-size="12" fill="#1e3a5f">🖥️ User D</text>
+
+  <rect x="48" y="300" width="124" height="32" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="110" y="322" text-anchor="middle" font-size="12" fill="#1e3a5f">💻 User E</text>
+
+  <!-- Arrow: Clients → LB -->
+  <line x1="190" y1="230" x2="310" y2="230" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow3)"/>
+  <text x="250" y="220" text-anchor="middle" font-size="11" fill="#64748b">all traffic</text>
+
+  <!-- Load Balancer Box -->
+  <rect x="320" y="140" width="200" height="180" rx="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5" filter="url(#shadow3)"/>
+  <text x="420" y="178" text-anchor="middle" font-size="16" font-weight="700" fill="#92400e">⚖️ Load</text>
+  <text x="420" y="200" text-anchor="middle" font-size="16" font-weight="700" fill="#92400e">Balancer</text>
+
+  <line x1="345" y1="215" x2="495" y2="215" stroke="#d97706" stroke-width="0.8"/>
+  <text x="420" y="237" text-anchor="middle" font-size="10" fill="#a16207">Algorithms:</text>
+  <text x="420" y="253" text-anchor="middle" font-size="10" fill="#a16207">Round Robin · Least Connections</text>
+  <text x="420" y="269" text-anchor="middle" font-size="10" fill="#a16207">IP Hash · Weighted</text>
+
+  <text x="420" y="298" text-anchor="middle" font-size="10" fill="#b45309">❤️ Health Checks Active</text>
+
+  <!-- Arrows: LB → Servers -->
+  <line x1="520" y1="180" x2="640" y2="120" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow3)"/>
+  <line x1="520" y1="210" x2="640" y2="195" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow3)"/>
+  <line x1="520" y1="240" x2="640" y2="270" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow3)"/>
+  <line x1="520" y1="270" x2="640" y2="345" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Servers Group -->
+  <rect x="650" y="80" width="220" height="230" rx="14" fill="#dcfce7" stroke="#86efac" stroke-width="1.5" filter="url(#shadow3)"/>
+  <text x="760" y="108" text-anchor="middle" font-size="14" font-weight="600" fill="#166534">Server Pool</text>
+
+  <rect x="670" y="120" width="180" height="40" rx="8" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="760" y="146" text-anchor="middle" font-size="13" fill="#166534">🖧 Server 1 — ✅ Healthy</text>
+
+  <rect x="670" y="172" width="180" height="40" rx="8" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="760" y="198" text-anchor="middle" font-size="13" fill="#166534">🖧 Server 2 — ✅ Healthy</text>
+
+  <rect x="670" y="224" width="180" height="40" rx="8" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="760" y="250" text-anchor="middle" font-size="13" fill="#166534">🖧 Server 3 — ✅ Healthy</text>
+
+  <!-- Down server (outside group) -->
+  <rect x="650" y="325" width="220" height="55" rx="14" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5" filter="url(#shadow3)"/>
+  <rect x="670" y="335" width="180" height="36" rx="8" fill="#fff" stroke="#f87171" stroke-width="1.5"/>
+  <text x="760" y="359" text-anchor="middle" font-size="13" fill="#dc2626">🖧 Server 4 — ❌ Down</text>
+
+  <text x="760" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#dc2626">Traffic automatically rerouted</text>
+
+  <!-- Legend -->
+  <line x1="35" y1="395" x2="55" y2="395" stroke="#16a34a" stroke-width="2"/>
+  <text x="60" y="399" font-size="11" fill="#475569">Active traffic</text>
+  <line x1="150" y1="395" x2="170" y2="395" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="175" y="399" font-size="11" fill="#475569">Blocked (unhealthy)</text>
+</svg>

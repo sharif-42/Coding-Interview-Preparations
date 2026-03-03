@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow4" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <filter id="shadow4" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Forward Proxy vs Reverse Proxy vs Load Balancer</text>
+
+  <!-- ===== FORWARD PROXY SECTION ===== -->
+  <rect x="20" y="65" width="860" height="120" rx="12" fill="#fefce8" stroke="#fde68a" stroke-width="1" filter="url(#shadow4)"/>
+  <text x="66" y="92" font-size="15" font-weight="700" fill="#a16207">Forward Proxy</text>
+  <text x="200" y="92" font-size="11" fill="#92400e">— Protects CLIENTS</text>
+
+  <!-- FP: Clients -->
+  <rect x="40" y="108" width="90" height="58" rx="8" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="85" y="133" text-anchor="middle" font-size="11" font-weight="600" fill="#0369a1">Clients</text>
+  <text x="85" y="150" text-anchor="middle" font-size="20">🖥️💻📱</text>
+
+  <line x1="130" y1="137" x2="210" y2="137" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow4)"/>
+
+  <!-- FP: Proxy -->
+  <rect x="220" y="108" width="120" height="58" rx="8" fill="#fef3c7" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="280" y="133" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">🛡️ Forward</text>
+  <text x="280" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Proxy</text>
+
+  <line x1="340" y1="137" x2="410" y2="137" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow4)"/>
+
+  <!-- FP: Internet -->
+  <ellipse cx="450" cy="137" rx="35" ry="25" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="450" y="141" text-anchor="middle" font-size="11" fill="#475569">🌐 Net</text>
+
+  <line x1="485" y1="137" x2="560" y2="137" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow4)"/>
+
+  <!-- FP: Server -->
+  <rect x="570" y="108" width="90" height="58" rx="8" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+  <text x="615" y="133" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">Server</text>
+  <text x="615" y="150" text-anchor="middle" font-size="18">🖧</text>
+
+  <!-- FP: Key points -->
+  <text x="700" y="120" font-size="11" fill="#475569">✓ Client knows proxy</text>
+  <text x="700" y="137" font-size="11" fill="#475569">✗ Server doesn't</text>
+  <text x="700" y="154" font-size="11" fill="#475569">↳ Hides client IP</text>
+
+  <!-- ===== REVERSE PROXY SECTION ===== -->
+  <rect x="20" y="200" width="860" height="120" rx="12" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1" filter="url(#shadow4)"/>
+  <text x="66" y="227" font-size="15" font-weight="700" fill="#6d28d9">Reverse Proxy</text>
+  <text x="210" y="227" font-size="11" fill="#7c3aed">— Protects SERVERS</text>
+
+  <!-- RP: Client -->
+  <rect x="40" y="243" width="90" height="58" rx="8" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="85" y="268" text-anchor="middle" font-size="11" font-weight="600" fill="#0369a1">Client</text>
+  <text x="85" y="285" text-anchor="middle" font-size="18">🖥️</text>
+
+  <line x1="130" y1="272" x2="210" y2="272" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow4)"/>
+
+  <!-- RP: Internet -->
+  <ellipse cx="250" cy="272" rx="35" ry="25" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="250" y="276" text-anchor="middle" font-size="11" fill="#475569">🌐 Net</text>
+
+  <line x1="285" y1="272" x2="365" y2="272" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow4)"/>
+
+  <!-- RP: Proxy -->
+  <rect x="375" y="243" width="120" height="58" rx="8" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="435" y="268" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">🛡️ Reverse</text>
+  <text x="435" y="285" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">Proxy</text>
+
+  <line x1="495" y1="258" x2="565" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="495" y1="272" x2="565" y2="272" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="495" y1="286" x2="565" y2="296" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <!-- RP: Servers -->
+  <rect x="570" y="233" width="90" height="76" rx="8" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+  <text x="615" y="257" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">Servers</text>
+  <text x="615" y="278" text-anchor="middle" font-size="10" fill="#166534">🖧 🖧 🖧</text>
+  <text x="615" y="296" text-anchor="middle" font-size="9" fill="#15803d">IPs hidden</text>
+
+  <!-- RP: Key points -->
+  <text x="700" y="255" font-size="11" fill="#475569">✗ Client doesn't know</text>
+  <text x="700" y="272" font-size="11" fill="#475569">✓ Servers know proxy</text>
+  <text x="700" y="289" font-size="11" fill="#475569">↳ Hides server IPs</text>
+
+  <!-- ===== LOAD BALANCER SECTION ===== -->
+  <rect x="20" y="335" width="860" height="145" rx="12" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="1" filter="url(#shadow4)"/>
+  <text x="66" y="362" font-size="15" font-weight="700" fill="#047857">Load Balancer</text>
+  <text x="205" y="362" font-size="11" fill="#059669">— Distributes TRAFFIC (specialized reverse proxy)</text>
+
+  <!-- LB: Clients -->
+  <rect x="40" y="378" width="90" height="82" rx="8" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="85" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#0369a1">Many</text>
+  <text x="85" y="416" text-anchor="middle" font-size="11" font-weight="600" fill="#0369a1">Clients</text>
+  <text x="85" y="440" text-anchor="middle" font-size="16">🖥️💻📱🖥️</text>
+
+  <line x1="130" y1="420" x2="260" y2="420" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow4)"/>
+  <text x="195" y="412" text-anchor="middle" font-size="10" fill="#64748b">high traffic</text>
+
+  <!-- LB: Load Balancer -->
+  <rect x="270" y="378" width="140" height="82" rx="8" fill="#d1fae5" stroke="#34d399" stroke-width="2"/>
+  <text x="340" y="405" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">⚖️ Load</text>
+  <text x="340" y="423" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">Balancer</text>
+  <text x="340" y="448" text-anchor="middle" font-size="9" fill="#059669">Round Robin · Least Conn</text>
+
+  <!-- LB: Arrows to servers -->
+  <line x1="410" y1="398" x2="490" y2="383" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="410" y1="413" x2="490" y2="413" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="410" y1="428" x2="490" y2="443" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="410" y1="442" x2="490" y2="460" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- LB: Servers -->
+  <rect x="498" y="370" width="80" height="30" rx="6" fill="#fff" stroke="#4ade80" stroke-width="1"/>
+  <text x="538" y="390" text-anchor="middle" font-size="11" fill="#166534">🖧 S1 ✅</text>
+
+  <rect x="498" y="403" width="80" height="30" rx="6" fill="#fff" stroke="#4ade80" stroke-width="1"/>
+  <text x="538" y="423" text-anchor="middle" font-size="11" fill="#166534">🖧 S2 ✅</text>
+
+  <rect x="498" y="436" width="80" height="30" rx="6" fill="#fff" stroke="#4ade80" stroke-width="1"/>
+  <text x="538" y="456" text-anchor="middle" font-size="11" fill="#166534">🖧 S3 ✅</text>
+
+  <rect x="590" y="449" width="68" height="26" rx="6" fill="#fee2e2" stroke="#f87171" stroke-width="1"/>
+  <text x="624" y="466" text-anchor="middle" font-size="10" fill="#dc2626">S4 ❌</text>
+
+
+  <!-- LB: Key points -->
+  <text x="700" y="390" font-size="11" fill="#475569">✓ Health checks</text>
+  <text x="700" y="407" font-size="11" fill="#475569">✓ Auto failover</text>
+  <text x="700" y="424" font-size="11" fill="#475569">✓ Multiple algorithms</text>
+  <text x="700" y="441" font-size="11" fill="#475569">✓ Horizontal scaling</text>
+  <text x="700" y="458" font-size="11" fill="#475569">↳ Is a reverse proxy</text>
+</svg>

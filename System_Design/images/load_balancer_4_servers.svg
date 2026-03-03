@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="aLB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="aLBg" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+    <marker id="aLBb" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <filter id="sLB" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="700" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="480" y="35" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Load Balancer with 4 Identical API Servers — Practical Example</text>
+  <text x="480" y="55" text-anchor="middle" font-size="12" fill="#64748b">HAProxy distributes 10,000 req/sec across 4 Django servers using Weighted Round Robin</text>
+
+  <!-- ============ CLIENTS ============ -->
+  <rect x="20" y="75" width="160" height="210" rx="14" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.5" filter="url(#sLB)"/>
+  <text x="100" y="100" text-anchor="middle" font-size="13" font-weight="600" fill="#0369a1">Incoming Traffic</text>
+  <text x="100" y="118" text-anchor="middle" font-size="10" fill="#64748b">~10,000 req/sec</text>
+
+  <rect x="35" y="130" width="130" height="28" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="100" y="149" text-anchor="middle" font-size="10" fill="#1e3a5f">🖥️ Web Users</text>
+
+  <rect x="35" y="164" width="130" height="28" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="100" y="183" text-anchor="middle" font-size="10" fill="#1e3a5f">📱 Mobile Apps</text>
+
+  <rect x="35" y="198" width="130" height="28" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="100" y="217" text-anchor="middle" font-size="10" fill="#1e3a5f">🔗 API Consumers</text>
+
+  <rect x="35" y="232" width="130" height="28" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="100" y="251" text-anchor="middle" font-size="10" fill="#1e3a5f">🤖 Third-party Apps</text>
+
+  <!-- Arrow: Clients → LB -->
+  <line x1="180" y1="185" x2="260" y2="185" stroke="#2563eb" stroke-width="3" marker-end="url(#aLBb)"/>
+  <text x="220" y="176" text-anchor="middle" font-size="10" font-weight="600" fill="#2563eb">HTTPS</text>
+
+  <!-- ============ LOAD BALANCER (HAProxy) ============ -->
+  <rect x="270" y="80" width="240" height="340" rx="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5" filter="url(#sLB)"/>
+  <text x="390" y="108" text-anchor="middle" font-size="16" font-weight="700" fill="#92400e">⚖️ HAProxy</text>
+  <text x="390" y="126" text-anchor="middle" font-size="11" fill="#a16207">Load Balancer</text>
+  <text x="390" y="142" text-anchor="middle" font-size="10" fill="#b45309">IP: 203.0.113.100</text>
+
+  <line x1="285" y1="152" x2="495" y2="152" stroke="#fbbf24" stroke-width="0.8"/>
+
+  <!-- Config section -->
+  <text x="285" y="170" font-size="11" font-weight="600" fill="#92400e">Algorithm: Weighted Round Robin</text>
+
+  <rect x="282" y="180" width="224" height="100" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8"/>
+  <text x="292" y="198" font-size="9" font-weight="600" fill="#78350f">backend api_servers</text>
+  <text x="292" y="214" font-size="9" fill="#92400e">  balance roundrobin</text>
+  <text x="292" y="230" font-size="9" fill="#92400e">  server s1 10.0.2.10:8000 weight 3 check</text>
+  <text x="292" y="246" font-size="9" fill="#92400e">  server s2 10.0.2.11:8000 weight 3 check</text>
+  <text x="292" y="262" font-size="9" fill="#92400e">  server s3 10.0.2.12:8000 weight 2 check</text>
+  <text x="292" y="278" font-size="9" fill="#dc2626">  server s4 10.0.2.13:8000 weight 2 check</text>
+
+  <!-- Health check -->
+  <text x="285" y="302" font-size="10" font-weight="600" fill="#92400e">❤️ Health Checks:</text>
+  <text x="285" y="318" font-size="9" fill="#a16207">GET /health every 5s</text>
+  <text x="285" y="334" font-size="9" fill="#a16207">3 failures → mark down</text>
+  <text x="285" y="350" font-size="9" fill="#a16207">2 successes → mark up</text>
+
+  <!-- Traffic distribution -->
+  <rect x="282" y="358" width="224" height="50" rx="6" fill="#fef9c3" stroke="#fde047" stroke-width="0.8"/>
+  <text x="394" y="376" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Traffic Distribution:</text>
+  <text x="394" y="393" text-anchor="middle" font-size="9" fill="#92400e">S1: 30% · S2: 30% · S3: 20% · S4: 20%</text>
+
+  <!-- ============ SERVERS ============ -->
+  <rect x="590" y="55" width="350" height="540" rx="14" fill="#f0fdf4" stroke="#86efac" stroke-width="1" filter="url(#sLB)"/>
+  <text x="765" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">Server Pool (All Identical Django API Servers)</text>
+  <text x="765" y="98" text-anchor="middle" font-size="10" fill="#15803d">Private Network 10.0.2.x — same code, same DB connection</text>
+
+  <!-- Server 1 -->
+  <rect x="610" y="110" width="310" height="95" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="630" y="132" font-size="13" font-weight="700" fill="#166534">🖧 Server 1 — ✅ Healthy</text>
+  <text x="630" y="150" font-size="10" fill="#15803d">IP: 10.0.2.10 · 8 CPU · 32GB RAM</text>
+  <text x="630" y="166" font-size="10" fill="#475569">Weight: 3 (high capacity machine)</text>
+  <text x="630" y="182" font-size="10" fill="#475569">Active connections: 847</text>
+  <text x="630" y="196" font-size="9" fill="#64748b">Receives ~3,000 req/sec</text>
+
+  <!-- Server 2 -->
+  <rect x="610" y="215" width="310" height="95" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="630" y="237" font-size="13" font-weight="700" fill="#166534">🖧 Server 2 — ✅ Healthy</text>
+  <text x="630" y="255" font-size="10" fill="#15803d">IP: 10.0.2.11 · 8 CPU · 32GB RAM</text>
+  <text x="630" y="271" font-size="10" fill="#475569">Weight: 3 (high capacity machine)</text>
+  <text x="630" y="287" font-size="10" fill="#475569">Active connections: 812</text>
+  <text x="630" y="301" font-size="9" fill="#64748b">Receives ~3,000 req/sec</text>
+
+  <!-- Server 3 -->
+  <rect x="610" y="320" width="310" height="95" rx="10" fill="#fff" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="630" y="342" font-size="13" font-weight="700" fill="#166534">🖧 Server 3 — ✅ Healthy</text>
+  <text x="630" y="360" font-size="10" fill="#15803d">IP: 10.0.2.12 · 4 CPU · 16GB RAM</text>
+  <text x="630" y="376" font-size="10" fill="#475569">Weight: 2 (smaller machine)</text>
+  <text x="630" y="392" font-size="10" fill="#475569">Active connections: 523</text>
+  <text x="630" y="406" font-size="9" fill="#64748b">Receives ~2,000 req/sec</text>
+
+  <!-- Server 4 (Down) -->
+  <rect x="610" y="425" width="310" height="95" rx="10" fill="#fee2e2" stroke="#f87171" stroke-width="2"/>
+  <text x="630" y="447" font-size="13" font-weight="700" fill="#dc2626">🖧 Server 4 — ❌ DOWN (deploying v2.1)</text>
+  <text x="630" y="465" font-size="10" fill="#dc2626">IP: 10.0.2.13 · 4 CPU · 16GB RAM</text>
+  <text x="630" y="481" font-size="10" fill="#475569">Weight: 2 (currently 0 — removed from pool)</text>
+  <text x="630" y="497" font-size="10" fill="#475569">Active connections: 0</text>
+  <text x="630" y="511" font-size="9" fill="#dc2626">Health check failed 3x → auto-removed</text>
+
+  <!-- Arrows: LB → Servers -->
+  <line x1="510" y1="155" x2="605" y2="155" stroke="#16a34a" stroke-width="2.5" marker-end="url(#aLBg)"/>
+  <line x1="510" y1="190" x2="605" y2="260" stroke="#16a34a" stroke-width="2.5" marker-end="url(#aLBg)"/>
+  <line x1="510" y1="250" x2="605" y2="365" stroke="#16a34a" stroke-width="2" marker-end="url(#aLBg)"/>
+  <line x1="510" y1="310" x2="605" y2="470" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Arrow labels -->
+  <text x="550" y="145" font-size="9" fill="#16a34a" font-weight="600">30%</text>
+  <text x="548" y="218" font-size="9" fill="#16a34a" font-weight="600">30%</text>
+  <text x="548" y="310" font-size="9" fill="#16a34a" font-weight="600">20%</text>
+  <text x="548" y="398" font-size="9" fill="#dc2626" font-weight="600">0% ✗</text>
+
+  <!-- Redistribution note -->
+  <rect x="610" y="530" width="310" height="52" rx="8" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+  <text x="765" y="550" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">⚡ Auto-Redistribution Active</text>
+  <text x="765" y="568" text-anchor="middle" font-size="10" fill="#a16207">S4's 20% traffic split → S1: 37.5% · S2: 37.5% · S3: 25%</text>
+
+  <!-- Bottom: Request trace -->
+  <rect x="20" y="610" width="920" height="76" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="40" y="632" font-size="12" font-weight="700" fill="#334155">Request Trace (10 consecutive requests with Weighted Round Robin):</text>
+  <text x="40" y="652" font-size="11" fill="#475569">Req 1 → S1 · Req 2 → S2 · Req 3 → S1 · Req 4 → S3 · Req 5 → S2 · Req 6 → S1 · Req 7 → S2 · Req 8 → S3 · Req 9 → S1 · Req 10 → S2</text>
+  <text x="40" y="672" font-size="10" fill="#94a3b8">S4 is skipped entirely because health check failed. When S4 recovers, HAProxy automatically adds it back in the rotation.</text>
+</svg>
