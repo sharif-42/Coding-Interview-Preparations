@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="aEX" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="aEXg" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+    <marker id="aEXb" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <filter id="sEX" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="620" rx="18" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="480" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">FoodDash API Gateway — Request Flow Example</text>
+  <text x="480" y="52" text-anchor="middle" font-size="12" fill="#64748b">Tracing a GET /api/v1/restaurants/nearby request through the Kong Gateway plugin chain</text>
+
+  <!-- ===== LEFT: Request Journey ===== -->
+
+  <!-- Step 1: Client -->
+  <rect x="20" y="70" width="200" height="75" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.5" filter="url(#sEX)"/>
+  <text x="30" y="90" font-size="12" font-weight="700" fill="#0369a1">① Mobile App sends request</text>
+  <text x="30" y="108" font-size="9" fill="#0284c7">GET https://api.fooddash.com</text>
+  <text x="30" y="122" font-size="9" fill="#0284c7">  /api/v1/restaurants/nearby?lat=23.8</text>
+  <text x="30" y="136" font-size="9" fill="#64748b">Authorization: Bearer eyJhbG...</text>
+
+  <line x1="120" y1="145" x2="120" y2="168" stroke="#2563eb" stroke-width="2" marker-end="url(#aEXb)"/>
+
+  <!-- Step 2: DNS -->
+  <rect x="20" y="172" width="200" height="48" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+  <text x="30" y="192" font-size="12" font-weight="700" fill="#475569">② DNS Resolution</text>
+  <text x="30" y="210" font-size="9" fill="#64748b">api.fooddash.com → 203.0.113.200</text>
+
+  <line x1="120" y1="220" x2="120" y2="244" stroke="#2563eb" stroke-width="2" marker-end="url(#aEXb)"/>
+
+  <!-- ===== CENTER: Gateway Plugin Chain ===== -->
+  <rect x="20" y="248" width="440" height="350" rx="14" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" filter="url(#sEX)"/>
+  <text x="240" y="275" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">🚪 Kong API Gateway — Plugin Chain</text>
+  <text x="240" y="293" text-anchor="middle" font-size="10" fill="#a16207">203.0.113.200 — each plugin executes in order</text>
+
+  <!-- Plugin 1: SSL -->
+  <rect x="35" y="306" width="410" height="34" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="45" y="328" font-size="11" font-weight="600" fill="#c2410c">③ SSL Termination</text>
+  <text x="240" y="328" font-size="10" fill="#92400e">HTTPS → HTTP internally. Certificate validated. ✅</text>
+
+  <!-- Plugin 2: Rate Limit -->
+  <rect x="35" y="346" width="410" height="34" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="45" y="368" font-size="11" font-weight="600" fill="#c2410c">④ Rate Limiting</text>
+  <text x="220" y="368" font-size="10" fill="#92400e">User has 12/100 requests this minute. Under limit. ✅</text>
+
+  <!-- Plugin 3: JWT -->
+  <rect x="35" y="386" width="410" height="34" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="45" y="408" font-size="11" font-weight="600" fill="#c2410c">⑤ JWT Authentication</text>
+  <text x="240" y="408" font-size="10" fill="#92400e">Token valid. Extracted user_id: 42. ✅</text>
+
+  <!-- Plugin 4: Transform -->
+  <rect x="35" y="426" width="410" height="34" rx="8" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="45" y="448" font-size="11" font-weight="600" fill="#c2410c">⑥ Request Transform</text>
+  <text x="240" y="448" font-size="10" fill="#92400e">Added headers: X-User-ID: 42, X-Request-ID: abc-123 ✅</text>
+
+  <!-- Plugin 5: Route -->
+  <rect x="35" y="466" width="410" height="34" rx="8" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="45" y="488" font-size="11" font-weight="700" fill="#166534">⑦ Route Match</text>
+  <text x="200" y="488" font-size="10" fill="#166534">/api/v1/restaurants/* → restaurant-svc.internal:8002 ✅</text>
+
+  <!-- Plugin 6: LB -->
+  <rect x="35" y="506" width="410" height="34" rx="8" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="45" y="528" font-size="11" font-weight="700" fill="#166534">⑧ Load Balancing</text>
+  <text x="200" y="528" font-size="10" fill="#166534">3 instances available → picked instance #2 (round robin) ✅</text>
+
+  <!-- Plugin 7: Logging -->
+  <rect x="35" y="546" width="410" height="34" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+  <text x="45" y="568" font-size="11" font-weight="600" fill="#475569">⑨ Logging</text>
+  <text x="155" y="568" font-size="10" fill="#64748b">Logged: timestamp, method, path, user_id, latency, status ✅</text>
+
+  <!-- ===== RIGHT: Backend Service ===== -->
+  <rect x="530" y="248" width="410" height="155" rx="14" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5" filter="url(#sEX)"/>
+  <text x="735" y="275" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">🍕 Restaurant Service (Instance #2)</text>
+  <text x="735" y="293" text-anchor="middle" font-size="10" fill="#15803d">restaurant-svc.internal:8002</text>
+
+  <text x="545" y="316" font-size="11" font-weight="600" fill="#166534">⑩ Receives internal request:</text>
+  <rect x="545" y="324" width="380" height="65" rx="6" fill="#fff" stroke="#86efac" stroke-width="0.8"/>
+  <text x="555" y="342" font-size="10" fill="#475569">GET /api/v1/restaurants/nearby?lat=23.8&amp;lng=90.4</text>
+  <text x="555" y="358" font-size="10" fill="#475569">X-User-ID: 42</text>
+  <text x="555" y="374" font-size="10" fill="#475569">X-Request-ID: abc-123-def</text>
+  <text x="555" y="390" font-size="9" fill="#64748b">No JWT validation needed — gateway already did it!</text>
+
+  <!-- Arrow: Gateway → Service -->
+  <line x1="460" y1="490" x2="525" y2="370" stroke="#16a34a" stroke-width="2.5" marker-end="url(#aEXg)"/>
+  <text x="498" y="418" font-size="10" fill="#16a34a" font-weight="600">HTTP</text>
+
+  <!-- Response -->
+  <rect x="530" y="420" width="410" height="180" rx="14" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5" filter="url(#sEX)"/>
+  <text x="735" y="445" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">⑪ Response (flows back through gateway)</text>
+
+  <rect x="545" y="456" width="380" height="90" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
+  <text x="555" y="476" font-size="10" fill="#475569">HTTP 200 OK</text>
+  <text x="555" y="492" font-size="10" fill="#475569">X-RateLimit-Remaining: 88</text>
+  <text x="555" y="508" font-size="10" fill="#475569">Content-Encoding: gzip</text>
+  <text x="555" y="524" font-size="9" fill="#1e40af">{ "restaurants": [ {"name": "Pizza Palace", "distance": "0.5km"}, ... ] }</text>
+  <text x="555" y="538" font-size="9" fill="#64748b">Gateway compresses response + adds rate limit headers</text>
+
+  <text x="735" y="576" text-anchor="middle" font-size="11" font-weight="600" fill="#1e40af">⑫ Client receives the response over HTTPS</text>
+  <text x="735" y="594" text-anchor="middle" font-size="10" fill="#64748b">Total gateway overhead: ~2ms | Total response time: ~48ms</text>
+</svg>

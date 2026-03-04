@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="aCMP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <filter id="sCMP" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="380" rx="18" fill="#f8fafc"/>
+
+  <text x="480" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">API Gateway vs Reverse Proxy vs Load Balancer</text>
+
+  <!-- Headers -->
+  <rect x="15" y="50" width="135" height="35" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="82" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">Feature</text>
+
+  <rect x="158" y="50" width="265" height="35" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="290" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">🚪 API Gateway</text>
+
+  <rect x="431" y="50" width="265" height="35" rx="8" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="563" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">🛡️ Reverse Proxy</text>
+
+  <rect x="704" y="50" width="242" height="35" rx="8" fill="#d1fae5" stroke="#34d399" stroke-width="1.5"/>
+  <text x="825" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#047857">⚖️ Load Balancer</text>
+
+  <!-- Row function -->
+  <!-- Row 1: Purpose -->
+  <rect x="15" y="92" width="135" height="28" rx="4" fill="#f8fafc"/>
+  <text x="25" y="111" font-size="10" font-weight="600" fill="#334155">Purpose</text>
+  <rect x="158" y="92" width="265" height="28" rx="4" fill="#fffbeb"/>
+  <text x="168" y="111" font-size="10" fill="#92400e">API mgmt, routing, auth, composition</text>
+  <rect x="431" y="92" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="111" font-size="10" fill="#5b21b6">Hide servers, SSL, caching</text>
+  <rect x="704" y="92" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="111" font-size="10" fill="#047857">Distribute traffic evenly</text>
+
+  <!-- Row 2: Auth -->
+  <rect x="15" y="124" width="135" height="28" rx="4" fill="#f1f5f9"/>
+  <text x="25" y="143" font-size="10" font-weight="600" fill="#334155">Authentication</text>
+  <rect x="158" y="124" width="265" height="28" rx="4" fill="#fef9c3"/>
+  <text x="168" y="143" font-size="10" font-weight="700" fill="#16a34a">✅ JWT, OAuth, API keys</text>
+  <rect x="431" y="124" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="143" font-size="10" fill="#64748b">⚠️ Basic (rarely)</text>
+  <rect x="704" y="124" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="143" font-size="10" fill="#dc2626">❌ No</text>
+
+  <!-- Row 3: Rate Limiting -->
+  <rect x="15" y="156" width="135" height="28" rx="4" fill="#f8fafc"/>
+  <text x="25" y="175" font-size="10" font-weight="600" fill="#334155">Rate Limiting</text>
+  <rect x="158" y="156" width="265" height="28" rx="4" fill="#fffbeb"/>
+  <text x="168" y="175" font-size="10" font-weight="700" fill="#16a34a">✅ Per user/route/API key</text>
+  <rect x="431" y="156" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="175" font-size="10" fill="#64748b">⚠️ Basic (per IP)</text>
+  <rect x="704" y="156" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="175" font-size="10" fill="#dc2626">❌ No</text>
+
+  <!-- Row 4: Transformation -->
+  <rect x="15" y="188" width="135" height="28" rx="4" fill="#f1f5f9"/>
+  <text x="25" y="207" font-size="10" font-weight="600" fill="#334155">Req/Res Transform</text>
+  <rect x="158" y="188" width="265" height="28" rx="4" fill="#fef9c3"/>
+  <text x="168" y="207" font-size="10" font-weight="700" fill="#16a34a">✅ Headers, body, protocol</text>
+  <rect x="431" y="188" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="207" font-size="10" fill="#64748b">⚠️ Basic headers</text>
+  <rect x="704" y="188" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="207" font-size="10" fill="#dc2626">❌ No</text>
+
+  <!-- Row 5: Composition -->
+  <rect x="15" y="220" width="135" height="28" rx="4" fill="#f8fafc"/>
+  <text x="25" y="239" font-size="10" font-weight="600" fill="#334155">API Composition</text>
+  <rect x="158" y="220" width="265" height="28" rx="4" fill="#fffbeb"/>
+  <text x="168" y="239" font-size="10" font-weight="700" fill="#16a34a">✅ Aggregate multiple services</text>
+  <rect x="431" y="220" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="239" font-size="10" fill="#dc2626">❌ No</text>
+  <rect x="704" y="220" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="239" font-size="10" fill="#dc2626">❌ No</text>
+
+  <!-- Row 6: Circuit Breaking -->
+  <rect x="15" y="252" width="135" height="28" rx="4" fill="#f1f5f9"/>
+  <text x="25" y="271" font-size="10" font-weight="600" fill="#334155">Circuit Breaking</text>
+  <rect x="158" y="252" width="265" height="28" rx="4" fill="#fef9c3"/>
+  <text x="168" y="271" font-size="10" font-weight="700" fill="#16a34a">✅ Per service</text>
+  <rect x="431" y="252" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="271" font-size="10" fill="#dc2626">❌ No</text>
+  <rect x="704" y="252" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="271" font-size="10" fill="#64748b">⚠️ Health checks only</text>
+
+  <!-- Row 7: Versioning -->
+  <rect x="15" y="284" width="135" height="28" rx="4" fill="#f8fafc"/>
+  <text x="25" y="303" font-size="10" font-weight="600" fill="#334155">API Versioning</text>
+  <rect x="158" y="284" width="265" height="28" rx="4" fill="#fffbeb"/>
+  <text x="168" y="303" font-size="10" font-weight="700" fill="#16a34a">✅ /v1 → old, /v2 → new</text>
+  <rect x="431" y="284" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="303" font-size="10" fill="#64748b">⚠️ Manual</text>
+  <rect x="704" y="284" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="303" font-size="10" fill="#dc2626">❌ No</text>
+
+  <!-- Row 8: Tools -->
+  <rect x="15" y="316" width="135" height="28" rx="4" fill="#f1f5f9"/>
+  <text x="25" y="335" font-size="10" font-weight="600" fill="#334155">Typical Tools</text>
+  <rect x="158" y="316" width="265" height="28" rx="4" fill="#fef9c3"/>
+  <text x="168" y="335" font-size="10" fill="#92400e">Kong, AWS API GW, Apigee</text>
+  <rect x="431" y="316" width="265" height="28" rx="4" fill="#faf5ff"/>
+  <text x="441" y="335" font-size="10" fill="#5b21b6">Nginx, Traefik, Caddy</text>
+  <rect x="704" y="316" width="242" height="28" rx="4" fill="#f0fdf4"/>
+  <text x="714" y="335" font-size="10" fill="#047857">HAProxy, AWS ALB/NLB</text>
+
+  <!-- Bottom insight -->
+  <rect x="15" y="352" width="931" height="22" rx="6" fill="#f1f5f9"/>
+  <text x="480" y="368" text-anchor="middle" font-size="10" font-weight="600" fill="#475569">💡 An API Gateway is a smart, application-aware reverse proxy with built-in API management. It UNDERSTANDS requests, not just forwards them.</text>
+</svg>
