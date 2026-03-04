@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="560" rx="12" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="480" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Rate Limiting Request Flow — Pro Tier User: POST /api/orders</text>
+
+  <!-- Step boxes along the flow -->
+
+  <!-- Step 1: Client -->
+  <rect x="30" y="70" width="160" height="80" rx="10" fill="#3b82f6"/>
+  <text x="110" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Step 1: Client</text>
+  <text x="110" y="118" text-anchor="middle" font-size="9" fill="#dbeafe">POST /api/orders</text>
+  <text x="110" y="133" text-anchor="middle" font-size="9" fill="#dbeafe">Bearer: jwt-token</text>
+  <text x="110" y="95" text-anchor="middle" font-size="9" fill="#dbeafe"/>
+
+  <!-- Arrow 1 to 2 -->
+  <line x1="190" y1="110" x2="230" y2="110" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 2: Gateway receives -->
+  <rect x="230" y="70" width="140" height="80" rx="10" fill="#f59e0b"/>
+  <text x="300" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Step 2</text>
+  <text x="300" y="118" text-anchor="middle" font-size="9" fill="#fef3c7">Gateway receives</text>
+  <text x="300" y="133" text-anchor="middle" font-size="9" fill="#fef3c7">request at edge</text>
+
+  <!-- Arrow 2 to 3 -->
+  <line x1="370" y1="110" x2="410" y2="110" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 3: Auth -->
+  <rect x="410" y="70" width="140" height="80" rx="10" fill="#8b5cf6"/>
+  <text x="480" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Step 3: Auth</text>
+  <text x="480" y="118" text-anchor="middle" font-size="9" fill="#ede9fe">Validate JWT</text>
+  <text x="480" y="133" text-anchor="middle" font-size="9" fill="#ede9fe">Identify: pro-tier-user</text>
+
+  <!-- Arrow 3 to 4 -->
+  <line x1="550" y1="110" x2="590" y2="110" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 4: Rate Limit Check -->
+  <rect x="590" y="60" width="170" height="100" rx="10" fill="#dc2626" opacity="0.9"/>
+  <text x="675" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Step 4: Rate Check</text>
+  <text x="675" y="108" text-anchor="middle" font-size="9" fill="#fecaca">Query Redis:</text>
+  <text x="675" y="122" text-anchor="middle" font-size="9" fill="#fecaca">"pro-tier-user current min?"</text>
+  <text x="675" y="140" text-anchor="middle" font-size="10" font-weight="600" fill="#fef2f2">Redis returns: 45</text>
+
+  <!-- Redis box -->
+  <rect x="610" y="210" width="150" height="60" rx="8" fill="#dc2626"/>
+  <text x="685" y="237" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Redis</text>
+  <text x="685" y="255" text-anchor="middle" font-size="9" fill="#fecaca">ratelimit:pro:min = 45</text>
+
+  <!-- Arrow: rate check to redis -->
+  <line x1="675" y1="160" x2="685" y2="210" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrRed)"/>
+
+  <!-- Decision diamond area -->
+  <polygon points="675,300 750,340 675,380 600,340" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+  <text x="675" y="337" text-anchor="middle" font-size="10" font-weight="700" fill="#78350f">45 &lt; 200?</text>
+  <text x="675" y="352" text-anchor="middle" font-size="10" font-weight="700" fill="#78350f">YES</text>
+
+  <!-- Arrow: redis to decision -->
+  <line x1="685" y1="270" x2="675" y2="300" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ALLOW path (right) -->
+  <line x1="750" y1="340" x2="830" y2="340" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrGreen)"/>
+  <text x="790" y="332" font-size="9" font-weight="600" fill="#10b981">ALLOW</text>
+
+  <!-- Step 5: Route to service -->
+  <rect x="830" y="310" width="120" height="60" rx="10" fill="#10b981"/>
+  <text x="890" y="335" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Step 5</text>
+  <text x="890" y="352" text-anchor="middle" font-size="9" fill="#d1fae5">Route to</text>
+  <text x="890" y="365" text-anchor="middle" font-size="9" fill="#d1fae5">order-svc:8003</text>
+
+  <!-- BLOCK path (left) — dashed, for when limit exceeded -->
+  <line x1="600" y1="340" x2="470" y2="340" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrRed)"/>
+  <text x="535" y="332" font-size="9" font-weight="600" fill="#dc2626">BLOCK (if over)</text>
+
+  <!-- 429 response box -->
+  <rect x="340" y="310" width="130" height="65" rx="10" fill="#dc2626" opacity="0.85"/>
+  <text x="405" y="335" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">429 Response</text>
+  <text x="405" y="352" text-anchor="middle" font-size="9" fill="#fecaca">Retry-After: 23</text>
+  <text x="405" y="365" text-anchor="middle" font-size="9" fill="#fecaca">Remaining: 0</text>
+
+  <!-- Step 6: Service processes -->
+  <rect x="830" y="400" width="120" height="55" rx="10" fill="#059669"/>
+  <text x="890" y="423" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Step 6</text>
+  <text x="890" y="440" text-anchor="middle" font-size="9" fill="#d1fae5">Order Service</text>
+  <text x="890" y="453" text-anchor="middle" font-size="9" fill="#d1fae5">returns 201</text>
+
+  <line x1="890" y1="370" x2="890" y2="400" stroke="#10b981" stroke-width="2" marker-end="url(#arrGreen)"/>
+
+  <!-- Step 7: Gateway adds headers -->
+  <rect x="560" y="420" width="210" height="55" rx="10" fill="#f59e0b"/>
+  <text x="665" y="443" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Step 7: Add Rate Limit Headers</text>
+  <text x="665" y="460" text-anchor="middle" font-size="9" fill="#fef3c7">X-RateLimit-Remaining-Minute: 154</text>
+
+  <line x1="830" y1="427" x2="770" y2="447" stroke="#d97706" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 8: Client receives -->
+  <rect x="30" y="430" width="160" height="65" rx="10" fill="#3b82f6"/>
+  <text x="110" y="455" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Step 8: Client</text>
+  <text x="110" y="472" text-anchor="middle" font-size="9" fill="#dbeafe">201 Created</text>
+  <text x="110" y="485" text-anchor="middle" font-size="9" fill="#dbeafe">Remaining: 154/min</text>
+
+  <line x1="560" y1="462" x2="190" y2="462" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Info box -->
+  <rect x="30" y="190" width="250" height="100" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="45" y="215" font-size="11" font-weight="700" fill="#1e293b">Rate limit resolution order:</text>
+  <text x="45" y="235" font-size="10" fill="#475569">1. Consumer + Route (most specific)</text>
+  <text x="45" y="252" font-size="10" fill="#475569">2. Consumer + Service</text>
+  <text x="45" y="269" font-size="10" fill="#475569">3. Consumer (pro: 200/min)</text>
+  <text x="45" y="282" font-size="10" font-weight="600" fill="#10b981">   ^ This one wins</text>
+</svg>
