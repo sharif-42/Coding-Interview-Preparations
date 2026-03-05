@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#dc2626"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="480" rx="12" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="480" y="35" text-anchor="middle" font-size="19" font-weight="700" fill="#1e293b">How CORS Works — Same-Origin Policy and Cross-Origin Requests</text>
+
+  <!-- ===== LEFT SIDE: BLOCKED (No CORS) ===== -->
+  <text x="240" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#dc2626">Without CORS — Blocked</text>
+
+  <!-- Browser -->
+  <rect x="50" y="95" width="160" height="70" rx="10" fill="#3b82f6"/>
+  <text x="130" y="125" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Browser</text>
+  <text x="130" y="145" text-anchor="middle" font-size="10" fill="#dbeafe">https://myapp.com</text>
+
+  <!-- Arrow: Browser to Server -->
+  <line x1="210" y1="130" x2="310" y2="130" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="260" y="120" text-anchor="middle" font-size="9" fill="#475569">GET /api/users</text>
+  <text x="260" y="145" text-anchor="middle" font-size="9" fill="#475569">Origin: https://myapp.com</text>
+
+  <!-- Server -->
+  <rect x="310" y="95" width="160" height="70" rx="10" fill="#10b981"/>
+  <text x="390" y="125" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">API Server</text>
+  <text x="390" y="145" text-anchor="middle" font-size="10" fill="#d1fae5">https://api.myapp.com</text>
+
+  <!-- Arrow: Server responds (no CORS header) -->
+  <line x1="390" y1="165" x2="390" y2="215" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="390" y="200" text-anchor="middle" font-size="9" fill="#64748b">200 OK</text>
+
+  <!-- Response box — no CORS header -->
+  <rect x="310" y="215" width="160" height="55" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="390" y="237" text-anchor="middle" font-size="10" font-weight="600" fill="#dc2626">No CORS headers</text>
+  <text x="390" y="255" text-anchor="middle" font-size="9" fill="#991b1b">Missing Allow-Origin</text>
+
+  <!-- Arrow: Response back to browser -->
+  <line x1="310" y1="242" x2="210" y2="242" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- BLOCKED box -->
+  <rect x="55" y="215" width="150" height="70" rx="10" fill="#dc2626" opacity="0.9"/>
+  <text x="130" y="243" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">BLOCKED</text>
+  <text x="130" y="262" text-anchor="middle" font-size="9" fill="#fecaca">Browser hides response</text>
+  <text x="130" y="276" text-anchor="middle" font-size="9" fill="#fecaca">JS sees: TypeError</text>
+
+  <!-- ===== RIGHT SIDE: ALLOWED (With CORS) ===== -->
+  <text x="720" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#10b981">With CORS — Allowed</text>
+
+  <!-- Browser -->
+  <rect x="530" y="95" width="160" height="70" rx="10" fill="#3b82f6"/>
+  <text x="610" y="125" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Browser</text>
+  <text x="610" y="145" text-anchor="middle" font-size="10" fill="#dbeafe">https://myapp.com</text>
+
+  <!-- Arrow: Browser to Server -->
+  <line x1="690" y1="130" x2="790" y2="130" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="740" y="120" text-anchor="middle" font-size="9" fill="#475569">GET /api/users</text>
+  <text x="740" y="145" text-anchor="middle" font-size="9" fill="#475569">Origin: https://myapp.com</text>
+
+  <!-- Server -->
+  <rect x="790" y="95" width="160" height="70" rx="10" fill="#10b981"/>
+  <text x="870" y="125" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">API Server</text>
+  <text x="870" y="145" text-anchor="middle" font-size="10" fill="#d1fae5">https://api.myapp.com</text>
+
+  <!-- Arrow: Server responds (with CORS header) -->
+  <line x1="870" y1="165" x2="870" y2="215" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="870" y="200" text-anchor="middle" font-size="9" fill="#64748b">200 OK</text>
+
+  <!-- Response box — with CORS header -->
+  <rect x="790" y="215" width="160" height="55" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="870" y="235" text-anchor="middle" font-size="10" font-weight="600" fill="#16a34a">CORS Headers Present</text>
+  <text x="870" y="252" text-anchor="middle" font-size="8" fill="#166534">Access-Control-Allow-Origin:</text>
+  <text x="870" y="264" text-anchor="middle" font-size="8" fill="#166534">https://myapp.com</text>
+
+  <!-- Arrow: Response back to browser -->
+  <line x1="790" y1="242" x2="690" y2="242" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ALLOWED box -->
+  <rect x="535" y="215" width="150" height="70" rx="10" fill="#10b981" opacity="0.9"/>
+  <text x="610" y="243" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">ALLOWED</text>
+  <text x="610" y="262" text-anchor="middle" font-size="9" fill="#d1fae5">Browser passes response</text>
+  <text x="610" y="276" text-anchor="middle" font-size="9" fill="#d1fae5">JS receives data</text>
+
+  <!-- ===== BOTTOM: Key points ===== -->
+  <rect x="50" y="320" width="860" height="140" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="480" y="348" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Key Points</text>
+
+  <rect x="75" y="362" width="12" height="12" rx="2" fill="#3b82f6"/>
+  <text x="95" y="373" font-size="11" fill="#334155">CORS is enforced by the browser, not the server. The server always processes the request.</text>
+
+  <rect x="75" y="385" width="12" height="12" rx="2" fill="#dc2626"/>
+  <text x="95" y="396" font-size="11" fill="#334155">Without CORS headers, the browser blocks JavaScript from reading the response (even if the server returned 200).</text>
+
+  <rect x="75" y="408" width="12" height="12" rx="2" fill="#10b981"/>
+  <text x="95" y="419" font-size="11" fill="#334155">With the correct Access-Control-Allow-Origin header, the browser allows the response through.</text>
+
+  <rect x="75" y="431" width="12" height="12" rx="2" fill="#f59e0b"/>
+  <text x="95" y="442" font-size="11" fill="#334155">Tools like curl, Postman, and server-to-server calls are NOT affected by CORS — it is a browser-only mechanism.</text>
+</svg>

@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 650" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+    </marker>
+    <marker id="arrG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+    </marker>
+    <marker id="arrB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrP" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arrA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="650" rx="12" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="480" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">CORS Preflight Flow — POST /api/orders with Authorization Header</text>
+
+  <!-- Timeline line -->
+  <line x1="480" y1="60" x2="480" y2="600" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Column labels -->
+  <text x="200" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#3b82f6">Browser (https://myapp.com)</text>
+  <text x="760" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#10b981">Server (https://api.myapp.com)</text>
+
+  <!-- ===== STEP 1: Browser detects cross-origin ===== -->
+  <rect x="50" y="88" width="300" height="55" rx="8" fill="#3b82f6"/>
+  <text x="200" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 1: JS calls fetch()</text>
+  <text x="200" y="128" text-anchor="middle" font-size="9" fill="#dbeafe">POST + Authorization header = non-simple request</text>
+
+  <!-- ===== STEP 2: Preflight OPTIONS ===== -->
+  <rect x="70" y="165" width="280" height="65" rx="8" fill="#8b5cf6" opacity="0.9"/>
+  <text x="210" y="187" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 2: Browser sends OPTIONS (automatic)</text>
+  <text x="210" y="204" text-anchor="middle" font-size="8" fill="#ede9fe">Access-Control-Request-Method: POST</text>
+  <text x="210" y="218" text-anchor="middle" font-size="8" fill="#ede9fe">Access-Control-Request-Headers: Authorization, Content-Type</text>
+
+  <!-- Arrow: preflight to server -->
+  <line x1="350" y1="197" x2="610" y2="197" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrP)"/>
+  <text x="480" y="190" text-anchor="middle" font-size="10" font-weight="600" fill="#7c3aed">OPTIONS /api/orders</text>
+
+  <!-- Server receives preflight -->
+  <rect x="610" y="165" width="300" height="65" rx="8" fill="#10b981"/>
+  <text x="760" y="187" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 3: Server checks CORS config</text>
+  <text x="760" y="204" text-anchor="middle" font-size="9" fill="#d1fae5">Origin allowed? Methods allowed?</text>
+  <text x="760" y="218" text-anchor="middle" font-size="9" fill="#d1fae5">Headers allowed?</text>
+
+  <!-- ===== STEP 4: Preflight Response ===== -->
+  <rect x="610" y="255" width="300" height="80" rx="8" fill="#f59e0b" opacity="0.9"/>
+  <text x="760" y="277" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 4: Preflight Response</text>
+  <text x="760" y="293" text-anchor="middle" font-size="8" fill="#fef3c7">Access-Control-Allow-Origin: https://myapp.com</text>
+  <text x="760" y="306" text-anchor="middle" font-size="8" fill="#fef3c7">Access-Control-Allow-Methods: GET, POST, PUT, DELETE</text>
+  <text x="760" y="319" text-anchor="middle" font-size="8" fill="#fef3c7">Access-Control-Allow-Headers: Authorization, Content-Type</text>
+
+  <!-- Arrow: preflight response back -->
+  <line x1="610" y1="295" x2="350" y2="295" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrA)"/>
+  <text x="480" y="288" text-anchor="middle" font-size="10" font-weight="600" fill="#d97706">204 No Content + CORS headers</text>
+
+  <!-- Browser checks -->
+  <rect x="70" y="260" width="280" height="55" rx="8" fill="#3b82f6"/>
+  <text x="210" y="282" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 5: Browser validates preflight</text>
+  <text x="210" y="300" text-anchor="middle" font-size="9" fill="#dbeafe">Origin OK? Method OK? Headers OK? = ALL PASS</text>
+
+  <!-- ===== STEP 6: Actual Request ===== -->
+  <rect x="70" y="345" width="280" height="65" rx="8" fill="#3b82f6"/>
+  <text x="210" y="367" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 6: Actual Request</text>
+  <text x="210" y="384" text-anchor="middle" font-size="8" fill="#dbeafe">POST /api/orders</text>
+  <text x="210" y="398" text-anchor="middle" font-size="8" fill="#dbeafe">Authorization: Bearer token | Content-Type: application/json</text>
+
+  <!-- Arrow: actual request to server -->
+  <line x1="350" y1="377" x2="610" y2="377" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <text x="480" y="370" text-anchor="middle" font-size="10" font-weight="600" fill="#2563eb">POST /api/orders (real request)</text>
+
+  <!-- Server processes -->
+  <rect x="610" y="345" width="300" height="65" rx="8" fill="#10b981"/>
+  <text x="760" y="367" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Step 7: Server processes request</text>
+  <text x="760" y="384" text-anchor="middle" font-size="9" fill="#d1fae5">Creates order, returns 201 Created</text>
+  <text x="760" y="398" text-anchor="middle" font-size="9" fill="#d1fae5">+ Access-Control-Allow-Origin header</text>
+
+  <!-- ===== STEP 8: Response ===== -->
+  <!-- Arrow: response back -->
+  <line x1="610" y1="460" x2="350" y2="460" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrG)"/>
+  <text x="480" y="453" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">201 Created + CORS headers</text>
+
+  <rect x="610" y="430" width="300" height="55" rx="8" fill="#10b981" opacity="0.8"/>
+  <text x="760" y="452" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">201 Created</text>
+  <text x="760" y="470" text-anchor="middle" font-size="8" fill="#d1fae5">{"order_id": "ORD-123"}</text>
+
+  <rect x="70" y="430" width="280" height="55" rx="8" fill="#10b981" opacity="0.9"/>
+  <text x="210" y="452" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Step 8: JS receives response</text>
+  <text x="210" y="470" text-anchor="middle" font-size="9" fill="#d1fae5">fetch() promise resolves with data</text>
+
+  <!-- Legend box -->
+  <rect x="70" y="510" width="820" height="120" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="480" y="535" text-anchor="middle" font-size="12" font-weight="700" fill="#1e293b">Why Preflight Happens</text>
+
+  <rect x="90" y="548" width="12" height="12" rx="2" fill="#8b5cf6"/>
+  <text x="110" y="559" font-size="10" fill="#334155">POST with Content-Type: application/json is NOT a "simple request" (only form-urlencoded, multipart, text/plain are simple)</text>
+
+  <rect x="90" y="568" width="12" height="12" rx="2" fill="#f59e0b"/>
+  <text x="110" y="579" font-size="10" fill="#334155">Authorization header is a custom header — triggers preflight automatically</text>
+
+  <rect x="90" y="588" width="12" height="12" rx="2" fill="#3b82f6"/>
+  <text x="110" y="599" font-size="10" fill="#334155">Preflight result can be cached (Access-Control-Max-Age) — subsequent requests skip OPTIONS for that duration</text>
+
+  <rect x="90" y="608" width="12" height="12" rx="2" fill="#10b981"/>
+  <text x="110" y="619" font-size="10" fill="#334155">If preflight fails (server returns wrong/missing CORS headers), the browser NEVER sends the actual request</text>
+</svg>
