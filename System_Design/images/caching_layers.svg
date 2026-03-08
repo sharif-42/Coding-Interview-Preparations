@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <marker id="lB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="lG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+    </marker>
+    <marker id="lA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="600" rx="12" fill="url(#bgL)"/>
+  <text x="500" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Multi-Layer Caching Architecture</text>
+  <text x="500" y="50" text-anchor="middle" font-size="10" fill="#64748b">Each layer reduces load on the next, creating a caching cascade</text>
+
+  <!-- ===== LAYER 1: Browser Cache ===== -->
+  <rect x="30" y="75" width="170" height="190" rx="10" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="30" y="75" width="170" height="32" rx="10" fill="#3b82f6"/>
+  <rect x="30" y="97" width="170" height="10" fill="#3b82f6"/>
+  <text x="115" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Layer 1: Browser</text>
+
+  <rect x="45" y="115" width="140" height="20" rx="4" fill="#dbeafe"/>
+  <text x="115" y="129" text-anchor="middle" font-size="8" font-weight="600" fill="#1e40af">Cache-Control headers</text>
+
+  <rect x="45" y="142" width="140" height="20" rx="4" fill="#dbeafe"/>
+  <text x="115" y="156" text-anchor="middle" font-size="8" font-weight="600" fill="#1e40af">ETag / Last-Modified</text>
+
+  <rect x="45" y="169" width="140" height="20" rx="4" fill="#dbeafe"/>
+  <text x="115" y="183" text-anchor="middle" font-size="8" font-weight="600" fill="#1e40af">Service Worker</text>
+
+  <rect x="45" y="200" width="140" height="18" rx="3" fill="#eff6ff"/>
+  <text x="115" y="213" text-anchor="middle" font-size="7" fill="#1e40af">Latency: 0ms (local)</text>
+  <rect x="45" y="222" width="140" height="18" rx="3" fill="#f0fdf4"/>
+  <text x="115" y="235" text-anchor="middle" font-size="7" fill="#166534">Hit rate: ~60-80%</text>
+
+  <!-- Arrow 1-2 -->
+  <line x1="200" y1="170" x2="228" y2="170" stroke="#3b82f6" stroke-width="2" marker-end="url(#lB)"/>
+  <text x="215" y="160" text-anchor="middle" font-size="7" fill="#64748b">Miss</text>
+
+  <!-- ===== LAYER 2: CDN Cache ===== -->
+  <rect x="230" y="75" width="170" height="190" rx="10" fill="#fff" stroke="#10b981" stroke-width="2"/>
+  <rect x="230" y="75" width="170" height="32" rx="10" fill="#10b981"/>
+  <rect x="230" y="97" width="170" height="10" fill="#10b981"/>
+  <text x="315" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Layer 2: CDN</text>
+
+  <rect x="245" y="115" width="140" height="20" rx="4" fill="#d1fae5"/>
+  <text x="315" y="129" text-anchor="middle" font-size="8" font-weight="600" fill="#065f46">CloudFront / Cloudflare</text>
+
+  <rect x="245" y="142" width="140" height="20" rx="4" fill="#d1fae5"/>
+  <text x="315" y="156" text-anchor="middle" font-size="8" font-weight="600" fill="#065f46">Edge locations</text>
+
+  <rect x="245" y="169" width="140" height="20" rx="4" fill="#d1fae5"/>
+  <text x="315" y="183" text-anchor="middle" font-size="8" font-weight="600" fill="#065f46">Static + API responses</text>
+
+  <rect x="245" y="200" width="140" height="18" rx="3" fill="#f0fdf4"/>
+  <text x="315" y="213" text-anchor="middle" font-size="7" fill="#065f46">Latency: 5-20ms (edge)</text>
+  <rect x="245" y="222" width="140" height="18" rx="3" fill="#f0fdf4"/>
+  <text x="315" y="235" text-anchor="middle" font-size="7" fill="#065f46">Hit rate: ~70-95%</text>
+
+  <!-- Arrow 2-3 -->
+  <line x1="400" y1="170" x2="428" y2="170" stroke="#10b981" stroke-width="2" marker-end="url(#lG)"/>
+  <text x="415" y="160" text-anchor="middle" font-size="7" fill="#64748b">Miss</text>
+
+  <!-- ===== LAYER 3: API Gateway Cache ===== -->
+  <rect x="430" y="75" width="170" height="190" rx="10" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="430" y="75" width="170" height="32" rx="10" fill="#f59e0b"/>
+  <rect x="430" y="97" width="170" height="10" fill="#f59e0b"/>
+  <text x="515" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Layer 3: Gateway</text>
+
+  <rect x="445" y="115" width="140" height="20" rx="4" fill="#fef3c7"/>
+  <text x="515" y="129" text-anchor="middle" font-size="8" font-weight="600" fill="#92400e">Kong / Nginx</text>
+
+  <rect x="445" y="142" width="140" height="20" rx="4" fill="#fef3c7"/>
+  <text x="515" y="156" text-anchor="middle" font-size="8" font-weight="600" fill="#92400e">proxy_cache directive</text>
+
+  <rect x="445" y="169" width="140" height="20" rx="4" fill="#fef3c7"/>
+  <text x="515" y="183" text-anchor="middle" font-size="8" font-weight="600" fill="#92400e">Response-level caching</text>
+
+  <rect x="445" y="200" width="140" height="18" rx="3" fill="#fffbeb"/>
+  <text x="515" y="213" text-anchor="middle" font-size="7" fill="#92400e">Latency: 1-5ms</text>
+  <rect x="445" y="222" width="140" height="18" rx="3" fill="#f0fdf4"/>
+  <text x="515" y="235" text-anchor="middle" font-size="7" fill="#166534">Hit rate: ~50-80%</text>
+
+  <!-- Arrow 3-4 -->
+  <line x1="600" y1="170" x2="628" y2="170" stroke="#f59e0b" stroke-width="2" marker-end="url(#lA)"/>
+  <text x="615" y="160" text-anchor="middle" font-size="7" fill="#64748b">Miss</text>
+
+  <!-- ===== LAYER 4: Application Cache ===== -->
+  <rect x="630" y="75" width="170" height="190" rx="10" fill="#fff" stroke="#dc2626" stroke-width="2"/>
+  <rect x="630" y="75" width="170" height="32" rx="10" fill="#dc2626"/>
+  <rect x="630" y="97" width="170" height="10" fill="#dc2626"/>
+  <text x="715" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Layer 4: Application</text>
+
+  <rect x="645" y="115" width="140" height="20" rx="4" fill="#fecaca"/>
+  <text x="715" y="129" text-anchor="middle" font-size="8" font-weight="600" fill="#991b1b">Redis / Memcached</text>
+
+  <rect x="645" y="142" width="140" height="20" rx="4" fill="#fecaca"/>
+  <text x="715" y="156" text-anchor="middle" font-size="8" font-weight="600" fill="#991b1b">Django cache / FastAPI</text>
+
+  <rect x="645" y="169" width="140" height="20" rx="4" fill="#fecaca"/>
+  <text x="715" y="183" text-anchor="middle" font-size="8" font-weight="600" fill="#991b1b">Cache-Aside pattern</text>
+
+  <rect x="645" y="200" width="140" height="18" rx="3" fill="#fef2f2"/>
+  <text x="715" y="213" text-anchor="middle" font-size="7" fill="#991b1b">Latency: 1-2ms (Redis)</text>
+  <rect x="645" y="222" width="140" height="18" rx="3" fill="#f0fdf4"/>
+  <text x="715" y="235" text-anchor="middle" font-size="7" fill="#166534">Hit rate: ~80-95%</text>
+
+  <!-- Arrow 4-5 -->
+  <line x1="800" y1="170" x2="828" y2="170" stroke="#dc2626" stroke-width="2"/>
+  <text x="815" y="160" text-anchor="middle" font-size="7" fill="#64748b">Miss</text>
+
+  <!-- ===== LAYER 5: Database ===== -->
+  <rect x="830" y="75" width="145" height="190" rx="10" fill="#fff" stroke="#6366f1" stroke-width="2"/>
+  <rect x="830" y="75" width="145" height="32" rx="10" fill="#6366f1"/>
+  <rect x="830" y="97" width="145" height="10" fill="#6366f1"/>
+  <text x="903" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Layer 5: Database</text>
+
+  <rect x="843" y="115" width="120" height="20" rx="4" fill="#e0e7ff"/>
+  <text x="903" y="129" text-anchor="middle" font-size="8" font-weight="600" fill="#3730a3">PostgreSQL / MySQL</text>
+
+  <rect x="843" y="142" width="120" height="20" rx="4" fill="#e0e7ff"/>
+  <text x="903" y="156" text-anchor="middle" font-size="8" font-weight="600" fill="#3730a3">Query cache</text>
+
+  <rect x="843" y="169" width="120" height="20" rx="4" fill="#e0e7ff"/>
+  <text x="903" y="183" text-anchor="middle" font-size="8" font-weight="600" fill="#3730a3">Buffer pool / indexes</text>
+
+  <rect x="843" y="200" width="120" height="18" rx="3" fill="#eef2ff"/>
+  <text x="903" y="213" text-anchor="middle" font-size="7" fill="#3730a3">Latency: 5-50ms (disk)</text>
+  <rect x="843" y="222" width="120" height="18" rx="3" fill="#fef2f2"/>
+  <text x="903" y="235" text-anchor="middle" font-size="7" fill="#991b1b">Source of truth</text>
+
+  <!-- ===== TRAFFIC REDUCTION FUNNEL ===== -->
+  <text x="500" y="300" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">Traffic Reduction Through Layers</text>
+
+  <!-- Funnel visualization -->
+  <polygon points="115,325 885,325 810,370 190,370" fill="#3b82f6" opacity="0.15"/>
+  <polygon points="190,370 810,370 735,415 260,415" fill="#10b981" opacity="0.15"/>
+  <polygon points="260,415 735,415 660,460 335,460" fill="#f59e0b" opacity="0.15"/>
+  <polygon points="335,460 660,460 595,505 410,505" fill="#dc2626" opacity="0.15"/>
+
+  <!-- Funnel labels -->
+  <text x="500" y="354" text-anchor="middle" font-size="11" font-weight="600" fill="#1e40af">10,000 requests/sec arrive at Browser Cache</text>
+  <text x="500" y="398" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">2,000 reach CDN (80% cached locally)</text>
+  <text x="500" y="442" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">400 reach API Gateway (80% served by CDN)</text>
+  <text x="500" y="486" text-anchor="middle" font-size="11" font-weight="600" fill="#991b1b">80 reach App Server (80% cached at gateway)</text>
+
+  <!-- Final DB hit -->
+  <rect x="380" y="510" width="240" height="35" rx="8" fill="#6366f1" opacity="0.9"/>
+  <text x="500" y="533" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Only ~16 hit Database (80% app-cached)</text>
+
+  <!-- Percentage labels on right -->
+  <rect x="830" y="340" width="140" height="20" rx="4" fill="#eff6ff"/>
+  <text x="900" y="354" text-anchor="middle" font-size="9" font-weight="600" fill="#3b82f6">-80% at Browser</text>
+  <rect x="830" y="383" width="140" height="20" rx="4" fill="#f0fdf4"/>
+  <text x="900" y="397" text-anchor="middle" font-size="9" font-weight="600" fill="#10b981">-80% at CDN</text>
+  <rect x="830" y="426" width="140" height="20" rx="4" fill="#fffbeb"/>
+  <text x="900" y="440" text-anchor="middle" font-size="9" font-weight="600" fill="#f59e0b">-80% at Gateway</text>
+  <rect x="830" y="469" width="140" height="20" rx="4" fill="#fef2f2"/>
+  <text x="900" y="483" text-anchor="middle" font-size="9" font-weight="600" fill="#dc2626">-80% at App</text>
+
+  <!-- Bottom note -->
+  <rect x="100" y="558" width="800" height="30" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="500" y="578" text-anchor="middle" font-size="10" fill="#475569">Result: 10,000 req/sec reduced to ~16 DB queries/sec = 99.84% offload. This is why multi-layer caching is essential.</text>
+</svg>
