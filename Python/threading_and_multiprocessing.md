@@ -1,5 +1,67 @@
 ## AsyncIO, Threading and Multiprocessing
 
+### Concurrency vs Parallelism
+---
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  CONCURRENCY vs PARALLELISM                    │
+│                                                              │
+│   Concurrency (one cook, multiple dishes)                     │
+│   ───────────────────────────────────────                  │
+│   Task A: ███░░░██░░░░███   (switch between tasks)          │
+│   Task B: ░░░███░░████░░░   Tasks interleave on 1 core     │
+│                                                              │
+│   Parallelism (multiple cooks, multiple dishes)               │
+│   ───────────────────────────────────────                  │
+│   Core 1 → Task A: ██████████   (truly simultaneous)       │
+│   Core 2 → Task B: ██████████   Tasks run on separate cores  │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Concurrency**: Dealing with multiple things at once (structure). One worker switching between tasks.
+- **Parallelism**: Doing multiple things at once (execution). Multiple workers running simultaneously.
+
+### Python's Three Concurrency Models
+---
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│           CHOOSING THE RIGHT CONCURRENCY MODEL                │
+│                                                              │
+│           ┌─────────────────┐                                 │
+│           │  What type of   │                                 │
+│           │  work is it?    │                                 │
+│           └────────┬────────┘                                 │
+│                   │                                          │
+│       ┌───────────┼───────────┐                            │
+│       ▼           ▼           ▼                            │
+│  ┌─────────┐ ┌─────────┐ ┌─────────────────┐              │
+│  │ I/O-    │ │ I/O-    │ │ CPU-bound         │              │
+│  │ bound   │ │ bound   │ │ (math, data)      │              │
+│  │ (many)  │ │ (few)   │ │                   │              │
+│  └────┬────┘ └────┬────┘ └────────┬────────┘              │
+│       ▼          ▼              ▼                            │
+│   asyncio    threading    multiprocessing                   │
+│  (1 thread)  (GIL-bound)  (separate processes)              │
+│   ○ ○ ○ ○     ○ ○ ○         ● ● ● ●                        │
+│  cooperative  OS-managed   true parallelism                  │
+│                                                              │
+│  ○ = coroutine   ○ = thread   ● = process (own memory)       │
+└──────────────────────────────────────────────────────────────┘
+```
+
+| Feature | `asyncio` | `threading` | `multiprocessing` |
+| --- | --- | --- | --- |
+| **Best for** | I/O-bound (many connections) | I/O-bound (simpler code) | CPU-bound (computation) |
+| **Parallelism** | No (single thread) | No (GIL) | Yes (separate processes) |
+| **Concurrency** | Yes (cooperative) | Yes (preemptive) | Yes (true parallel) |
+| **Memory** | Shared (lightweight) | Shared (same process) | Separate (each process) |
+| **Overhead** | Very low | Low-medium | High (process creation) |
+| **Switching** | Developer controls (`await`) | OS controls | OS controls |
+| **Max tasks** | 10,000s+ easily | 100s-1000s | Limited by CPU cores |
+| **Race conditions** | Rare (single thread) | Possible (need locks) | Less common (separate memory) |
+| **Python GIL** | N/A (single thread) | Limits CPU work | Bypasses GIL |
 
 ### Question: What is thread and process?
 
@@ -18,7 +80,39 @@ A `thread` is like an individual chef within that kitchen. Multiple chefs can wo
 ![Thread](/Python/images/thread.webp)
 
 
-If we wanted to look at a real scenario then we can assume, A program like Microsoft word is a process and inside this word program, running sub-task like searching a text, using find and replace, spelling mistake, grammar mistake is thread. A process you can understand as an independent & active program and a thread is a lightweight process and a part of main process which share memory with other thread and use same resources of process.
+If we wanted to look at a real scenario then we can assume, A program like Microsoft Word is a process and inside this Word program, running sub-tasks like searching a text, using find and replace, spelling check, grammar check are threads. A process you can understand as an independent & active program and a thread is a lightweight process and a part of the main process which shares memory with other threads and uses the same resources of the process.
+
+**Process vs Thread Comparison:**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    PROCESS vs THREAD                          │
+│                                                              │
+│   Process A                    Process B                     │
+│   ┌──────────────────┐       ┌──────────────────┐         │
+│   │  Own Memory       │       │  Own Memory       │         │
+│   │  Own GIL          │       │  Own GIL          │         │
+│   │                  │       │                  │         │
+│   │  ┌──────┐┌─────┐│       │  ┌──────┐┌─────┐│         │
+│   │  │ Th 1 ││ Th 2││       │  │ Th 1 ││ Th 2││         │
+│   │  └──────┘└─────┘│       │  └──────┘└─────┘│         │
+│   │  (share memory)  │       │  (share memory)  │         │
+│   └──────────────────┘       └──────────────────┘         │
+│     (isolated from B)           (isolated from A)          │
+│                                                              │
+│   Threads within a process:  share memory, heap, code        │
+│   Processes are isolated:    separate memory, own GIL         │
+└──────────────────────────────────────────────────────────────┘
+```
+
+| Feature | Process | Thread |
+| --- | --- | --- |
+| Memory | Own isolated memory | Shared memory within process |
+| Creation overhead | Heavy (new interpreter) | Lightweight |
+| Communication | IPC (pipes, queues, sockets) | Direct (shared variables) |
+| Crash impact | One process crash doesn't affect others | One thread crash can kill the process |
+| GIL | Each process has its own GIL | All threads share one GIL |
+| Best for | CPU-bound parallelism | I/O-bound concurrency |
 
 
 <b>Subroutine</b>
@@ -37,6 +131,27 @@ Coroutines are generalizations of subroutines. They are used for cooperative mul
 - Unlike subroutines, there is no main function to call coroutines in a particular order and coordinate the results. Coroutines are cooperative that means they link together to form a pipeline. One coroutine may consume input data and send it to other that process it. Finally, there may be a coroutine to display the result.
 
 ![Coroutines](/Python/images/coroutine.webp)
+
+**Subroutine vs Coroutine Comparison:**
+
+```
+  Subroutine:                     Coroutine:
+  ┌───────────┐                   ┌───────────┐
+  │  start    │                   │  start    │
+  │  │        │                   │  │        │
+  │  │ run    │                   │  │ run    │
+  │  │        │                   │  │        │
+  │  ▼        │                   │  ▼ await  │ ──► pauses, gives control
+  │  end      │                   │  │        │
+  └───────────┘                   │  │ resume │ ◄── gets control back
+  (one entry, one exit)            │  │        │
+                                   │  ▼ await  │ ──► pauses again
+                                   │  │        │
+                                   │  ▼        │
+                                   │  end      │
+                                   └───────────┘
+                                   (multiple entry/exit points)
+```
 
 
 <b>Coroutine Vs Thread</b>
@@ -60,7 +175,7 @@ The event loop is the heart of asyncio.
 
 Think of it like an orchestra conductor. It keeps track of all the tasks (jobs) that need to run, decides which one goes next, and makes sure they cooperate.
 
-When a task is ready, the event loop gives it control. One the task pauses (e.g., waiting for I/O) or finishes, control goes back to the loop, and it moves on to the next task. This cycle continues until there’s no more work, at which point the loop waits quietly until new tasks arrive.
+When a task is ready, the event loop gives it control. Once the task pauses (e.g., waiting for I/O) or finishes, control goes back to the loop, and it moves on to the next task. This cycle continues until there's no more work, at which point the loop waits quietly until new tasks arrive.
 
 ```python
 import asyncio
@@ -71,6 +186,36 @@ event_loop.run_forever()
 ```
 
 ![Event Loop](/Python/images/event_loop.webp)
+
+**Event Loop Cycle Diagram:**
+```
+┌─────────────────────────────────────────────────────────┐
+│                 EVENT LOOP CYCLE                           │
+│                                                           │
+│   ┌───────────────────────────────┐                       │
+│   │                               │                       │
+│   ▼                               │                       │
+│   Check ready tasks               │                       │
+│   │                               │                       │
+│   ▼                               │                       │
+│   Run coroutine until await       │                       │
+│   │                               │                       │
+│   ▼                               │                       │
+│   Coroutine hits await             │                       │
+│   (yields control back)            │                       │
+│   │                               │                       │
+│   ▼                               │                       │
+│   Register I/O callback            │                       │
+│   │                               │                       │
+│   ▼                               │                       │
+│   Check for completed I/O          │                       │
+│   │                               │                       │
+│   ▼                               │                       │
+│   Resume completed coroutines ────┘                       │
+│                                                           │
+│   Repeat until no more tasks remain                       │
+└─────────────────────────────────────────────────────────┘
+```
 
 Coroutines (Tasks) are our async functions async def. They do some work, and when they hit an await, they reach a yield point. At this point, they hand control back to the event loop.
 
@@ -226,8 +371,29 @@ CPython uses reference counting for memory management. To update reference count
 - fast in single-threaded workloads
 - safe internally
 
-It limits performance for `CPU-bound multithreading` but does not affect I/O-bound workloads, because I/O operations release the GIL.
-For CPU-bound concurrency, we use multiprocessing or C-extensions. For I/O-bound concurrency, threads or asyncio work well.
+**Interview tip:** The GIL is a CPython implementation detail, not a Python language feature. Other implementations like Jython (Java) and IronPython (.NET) don't have a GIL. Python 3.13+ introduces an experimental "free-threaded" mode (`--disable-gil`) to remove this limitation.
+
+**GIL Impact Diagram:**
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  GIL IMPACT ON THREADS                        │
+│                                                              │
+│  CPU-bound threading (GIL hurts):                             │
+│  Thread 1: ███░░░███░░░███   only 1 runs at a time            │
+│  Thread 2: ░░░███░░░███░░░   → NO speedup!                   │
+│                                                              │
+│  I/O-bound threading (GIL is fine):                           │
+│  Thread 1: █░░░░░░░░░█░░░░   █ = Python code running         │
+│  Thread 2: ░█░░░░░░░░░█░░░   ░ = waiting for I/O             │
+│  Thread 3: ░░█░░░░░░░░░█░░   GIL released during I/O wait   │
+│  → Other threads can run while one waits!                    │
+│                                                              │
+│  multiprocessing (bypasses GIL):                              │
+│  Process 1: ███████████████   own GIL, own memory            │
+│  Process 2: ███████████████   true parallelism              │
+│  Process 3: ███████████████   on separate CPU cores          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 Django apps are usually I/O-bound:
 
@@ -262,6 +428,207 @@ if __name__ == '__main__':
     pool.close()
     pool.join()
 ```
+
+### Threading vs Multiprocessing vs AsyncIO — Code Comparison
+---
+
+**Same task: Fetch 5 URLs**
+
+**1. Threading (I/O-bound, simple):**
+```python
+import threading
+import requests
+
+def fetch(url):
+    response = requests.get(url)
+    print(f"{url}: {response.status_code}")
+
+urls = ["https://example.com"] * 5
+
+threads = [threading.Thread(target=fetch, args=(url,)) for url in urls]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+```
+
+**2. Multiprocessing (CPU-bound):**
+```python
+from multiprocessing import Pool
+
+def compute(n):
+    return sum(i * i for i in range(n))
+
+if __name__ == '__main__':
+    with Pool(4) as pool:
+        results = pool.map(compute, [10**7] * 4)
+    print(results)
+```
+
+**3. AsyncIO (I/O-bound, high scale):**
+```python
+import asyncio
+import aiohttp
+
+async def fetch(session, url):
+    async with session.get(url) as response:
+        return await response.text()
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch(session, "https://example.com") for _ in range(5)]
+        results = await asyncio.gather(*tasks)
+        print(f"Fetched {len(results)} pages")
+
+asyncio.run(main())
+```
+
+**Performance comparison for 100 HTTP requests:**
+```
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│  Approach   │  Time (100   │  Memory     │  Complexity  │
+│             │  requests)   │             │             │
+├─────────────┼─────────────┼─────────────┼─────────────┤
+│ Sequential  │  ~100s       │  Low        │  Simple     │
+│ Threading   │  ~2s         │  Medium     │  Medium     │
+│ AsyncIO     │  ~1.5s       │  Low        │  Medium-High│
+│ Multiproc   │  ~3s         │  High       │  Medium     │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+```
+
+### Thread Synchronization — Avoiding Race Conditions
+---
+
+When threads share data, race conditions can occur:
+
+```python
+import threading
+
+counter = 0
+
+def increment():
+    global counter
+    for _ in range(1_000_000):
+        counter += 1   # NOT thread-safe!
+
+t1 = threading.Thread(target=increment)
+t2 = threading.Thread(target=increment)
+t1.start(); t2.start()
+t1.join(); t2.join()
+
+print(counter)  # Expected: 2,000,000 — Actual: ~1,500,000 (race condition!)
+```
+
+**Fix with Lock:**
+```python
+import threading
+
+counter = 0
+lock = threading.Lock()
+
+def increment():
+    global counter
+    for _ in range(1_000_000):
+        with lock:           # only one thread at a time
+            counter += 1
+
+t1 = threading.Thread(target=increment)
+t2 = threading.Thread(target=increment)
+t1.start(); t2.start()
+t1.join(); t2.join()
+
+print(counter)  # 2,000,000 ✓
+```
+
+**Synchronization primitives:**
+
+| Primitive | Purpose |
+| --- | --- |
+| `Lock` | Mutual exclusion — one thread at a time |
+| `RLock` | Reentrant lock — same thread can acquire multiple times |
+| `Semaphore` | Allow up to N threads concurrently |
+| `Event` | Signal between threads (one sets, others wait) |
+| `Condition` | Wait for a specific condition to be true |
+| `Queue` | Thread-safe data sharing (producer-consumer) |
+
+### `asyncio.gather()` vs `asyncio.create_task()` vs `asyncio.wait()`
+---
+
+```python
+import asyncio
+
+async def task(name, delay):
+    await asyncio.sleep(delay)
+    return f"{name} done"
+
+# gather — run multiple coroutines, get all results in order
+async def main_gather():
+    results = await asyncio.gather(
+        task("A", 2),
+        task("B", 1),
+        task("C", 3),
+    )
+    print(results)  # ['A done', 'B done', 'C done'] (in order)
+
+# create_task — schedule individually, more control
+async def main_tasks():
+    t1 = asyncio.create_task(task("A", 2))
+    t2 = asyncio.create_task(task("B", 1))
+    # Both running concurrently now
+    result1 = await t1
+    result2 = await t2
+
+# wait — more control over completion
+async def main_wait():
+    tasks = [asyncio.create_task(task(n, i)) for i, n in enumerate("ABC")]
+    done, pending = await asyncio.wait(tasks, timeout=2)
+    # done = completed tasks, pending = still running
+```
+
+| Method | Returns | Order | Error handling | Use case |
+| --- | --- | --- | --- | --- |
+| `gather()` | List of results | Input order | One failure can cancel all | Run N tasks, get all results |
+| `create_task()` | Individual Task | N/A | Per-task | Fine-grained control |
+| `wait()` | (done, pending) sets | Completion order | Per-task | Timeouts, partial results |
+
+---
+
+### Common Interview Questions
+---
+
+**Q: What is the difference between threading, multiprocessing, and asyncio in Python?**
+- **Threading**: Multiple threads in one process, share memory, limited by GIL for CPU work. Good for I/O-bound tasks.
+- **Multiprocessing**: Separate processes with own memory and GIL. True parallelism. Good for CPU-bound tasks.
+- **AsyncIO**: Single-threaded event loop with coroutines. Most lightweight. Best for high-concurrency I/O (thousands of connections).
+
+**Q: When would you use asyncio over threading?**
+When you have many I/O-bound tasks (hundreds or thousands of concurrent connections). AsyncIO uses coroutines which are much lighter than threads (~120 bytes vs ~8 KB per thread). Threading is simpler for fewer concurrent tasks.
+
+**Q: What is the difference between `async def` and `def`?**
+`async def` defines a coroutine function. Calling it returns a coroutine object (not a result). You must `await` it or pass it to the event loop. Regular `def` runs synchronously and returns a result immediately.
+
+**Q: What is `await` and when can you use it?**
+`await` can only be used inside an `async def` function. It pauses the coroutine and gives control back to the event loop, allowing other coroutines to run while this one waits for an I/O operation.
+
+**Q: How does `asyncio.gather()` differ from sequential awaiting?**
+```python
+# Sequential — total time: 3 seconds
+result1 = await task_1s()   # waits 1s
+result2 = await task_2s()   # waits 2s
+
+# Concurrent — total time: 2 seconds (max of individual times)
+result1, result2 = await asyncio.gather(task_1s(), task_2s())
+```
+
+**Q: What is a race condition and how do you prevent it?**
+A race condition occurs when multiple threads access shared data simultaneously and the result depends on thread scheduling. Prevent with `Lock`, `Queue`, or by avoiding shared mutable state. With asyncio, race conditions are rare because only one coroutine runs at a time (single-threaded).
+
+**Q: How does Django/Flask handle concurrency?**
+- **Django**: Uses WSGI (synchronous), one thread per request. Supports async views since Django 3.1+ with ASGI.
+- **Flask**: Synchronous by default, uses threading for concurrent requests.
+- **FastAPI**: Built on asyncio + ASGI, natively supports `async def` handlers for high concurrency.
+
+---
 
 
 ### References
