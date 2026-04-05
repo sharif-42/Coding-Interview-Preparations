@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 720" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgPS" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <marker id="psG" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#10b981"/>
+    </marker>
+    <marker id="psR" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#dc2626"/>
+    </marker>
+    <marker id="psB" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#3b82f6"/>
+    </marker>
+    <marker id="psP" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <rect width="1060" height="720" rx="12" fill="url(#bgPS)"/>
+  <text x="530" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Pagination Strategies — Offset vs Cursor vs Keyset</text>
+
+  <!-- ==================== OFFSET PAGINATION ==================== -->
+  <g transform="translate(15, 55)">
+    <rect width="330" height="300" rx="10" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="330" height="32" rx="10" fill="#3b82f6"/>
+    <rect y="22" width="330" height="10" fill="#3b82f6"/>
+    <text x="165" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Offset-Based Pagination</text>
+
+    <!-- Data rows -->
+    <text x="20" y="55" font-size="9" font-weight="600" fill="#475569">Database rows (sorted by id):</text>
+    
+    <!-- Rows as boxes -->
+    <g transform="translate(20, 62)">
+      <!-- Row labels -->
+      <rect width="28" height="16" rx="3" fill="#e2e8f0"/><text x="14" y="12" text-anchor="middle" font-size="7" fill="#475569">1</text>
+      <rect x="30" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="44" y="12" text-anchor="middle" font-size="7" fill="#475569">2</text>
+      <rect x="60" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="74" y="12" text-anchor="middle" font-size="7" fill="#475569">3</text>
+      <rect x="90" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="104" y="12" text-anchor="middle" font-size="7" fill="#475569">4</text>
+      <rect x="120" width="28" height="16" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="134" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#1e40af">5</text>
+      <rect x="150" width="28" height="16" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="164" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#1e40af">6</text>
+      <rect x="180" width="28" height="16" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="194" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#1e40af">7</text>
+      <rect x="210" width="28" height="16" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/><text x="224" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#1e40af">8</text>
+      <rect x="240" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="254" y="12" text-anchor="middle" font-size="7" fill="#475569">9</text>
+      <rect x="270" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="284" y="12" text-anchor="middle" font-size="7" fill="#475569">10</text>
+      
+      <!-- Skip label -->
+      <text x="44" y="32" text-anchor="middle" font-size="7" fill="#dc2626">skip 4 (OFFSET)</text>
+      <line x1="0" y1="25" x2="88" y2="25" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+      
+      <!-- Return label -->
+      <text x="164" y="32" text-anchor="middle" font-size="7" fill="#3b82f6">return 4 (LIMIT)</text>
+      <line x1="120" y1="25" x2="208" y2="25" stroke="#3b82f6" stroke-width="1"/>
+    </g>
+
+    <!-- SQL -->
+    <rect x="15" y="105" width="300" height="28" rx="4" fill="#1e293b"/>
+    <text x="25" y="123" font-size="9" fill="#93c5fd">SELECT</text><text x="68" y="123" font-size="9" fill="#e2e8f0"> * </text><text x="82" y="123" font-size="9" fill="#93c5fd">FROM</text><text x="110" y="123" font-size="9" fill="#e2e8f0"> products </text><text x="172" y="123" font-size="9" fill="#93c5fd">LIMIT</text><text x="205" y="123" font-size="9" fill="#fbbf24"> 4 </text><text x="221" y="123" font-size="9" fill="#93c5fd">OFFSET</text><text x="264" y="123" font-size="9" fill="#fbbf24"> 4</text>
+
+    <!-- Performance problem -->
+    <rect x="15" y="145" width="300" height="55" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+    <text x="165" y="163" text-anchor="middle" font-size="9" font-weight="700" fill="#dc2626">Performance Problem</text>
+    <text x="165" y="178" text-anchor="middle" font-size="8" fill="#991b1b">OFFSET 1,000,000 scans and discards 1M rows</text>
+    <text x="165" y="191" text-anchor="middle" font-size="8" fill="#991b1b">Performance: O(offset + limit)</text>
+
+    <!-- Data drift problem -->
+    <rect x="15" y="208" width="300" height="80" rx="6" fill="#fffbeb" stroke="#fbbf24" stroke-width="1"/>
+    <text x="165" y="226" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e">Data Drift Problem</text>
+    <text x="25" y="242" font-size="7.5" fill="#78350f">Page 1: [A, B, C, D]  (offset=0)</text>
+    <text x="25" y="255" font-size="7.5" fill="#dc2626">--- item B deleted ---</text>
+    <text x="25" y="268" font-size="7.5" fill="#78350f">Page 2: [F, G, H, I]  (offset=4)</text>
+    <text x="25" y="281" font-size="7.5" fill="#dc2626">Item E was SKIPPED!</text>
+  </g>
+
+  <!-- ==================== CURSOR PAGINATION ==================== -->
+  <g transform="translate(365, 55)">
+    <rect width="330" height="300" rx="10" fill="#fff" stroke="#10b981" stroke-width="2"/>
+    <rect width="330" height="32" rx="10" fill="#10b981"/>
+    <rect y="22" width="330" height="10" fill="#10b981"/>
+    <text x="165" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Cursor-Based Pagination</text>
+
+    <!-- Data rows -->
+    <text x="20" y="55" font-size="9" font-weight="600" fill="#475569">No counting — jump directly via index:</text>
+
+    <g transform="translate(20, 62)">
+      <rect width="28" height="16" rx="3" fill="#e2e8f0"/><text x="14" y="12" text-anchor="middle" font-size="7" fill="#475569">1</text>
+      <rect x="30" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="44" y="12" text-anchor="middle" font-size="7" fill="#475569">2</text>
+      <rect x="60" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="74" y="12" text-anchor="middle" font-size="7" fill="#475569">3</text>
+      <rect x="90" width="28" height="16" rx="3" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/><text x="104" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#10b981">4</text>
+      <rect x="120" width="28" height="16" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="1"/><text x="134" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#065f46">5</text>
+      <rect x="150" width="28" height="16" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="1"/><text x="164" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#065f46">6</text>
+      <rect x="180" width="28" height="16" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="1"/><text x="194" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#065f46">7</text>
+      <rect x="210" width="28" height="16" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="1"/><text x="224" y="12" text-anchor="middle" font-size="7" font-weight="700" fill="#065f46">8</text>
+      <rect x="240" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="254" y="12" text-anchor="middle" font-size="7" fill="#475569">9</text>
+      <rect x="270" width="28" height="16" rx="3" fill="#e2e8f0"/><text x="284" y="12" text-anchor="middle" font-size="7" fill="#475569">10</text>
+
+      <!-- Cursor arrow -->
+      <line x1="104" y1="22" x2="104" y2="32" stroke="#10b981" stroke-width="1.5"/>
+      <text x="104" y="42" text-anchor="middle" font-size="7" fill="#10b981" font-weight="600">cursor</text>
+      
+      <!-- Return label -->
+      <text x="179" y="32" text-anchor="middle" font-size="7" fill="#065f46">WHERE id &gt; 4 LIMIT 4</text>
+      <line x1="120" y1="25" x2="238" y2="25" stroke="#10b981" stroke-width="1"/>
+    </g>
+
+    <!-- SQL -->
+    <rect x="15" y="105" width="300" height="28" rx="4" fill="#1e293b"/>
+    <text x="25" y="123" font-size="8.5" fill="#93c5fd">SELECT</text><text x="65" y="123" font-size="8.5" fill="#e2e8f0"> * </text><text x="78" y="123" font-size="8.5" fill="#93c5fd">WHERE</text><text x="112" y="123" font-size="8.5" fill="#e2e8f0"> id </text><text x="130" y="123" font-size="8.5" fill="#fbbf24">&gt;</text><text x="138" y="123" font-size="8.5" fill="#fbbf24"> 4</text><text x="150" y="123" font-size="8.5" fill="#93c5fd"> LIMIT</text><text x="183" y="123" font-size="8.5" fill="#fbbf24"> 4</text>
+
+    <!-- Performance win -->
+    <rect x="15" y="145" width="300" height="55" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+    <text x="165" y="163" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">Performance Win</text>
+    <text x="165" y="178" text-anchor="middle" font-size="8" fill="#166534">B-tree index seek — jumps directly to id=4</text>
+    <text x="165" y="191" text-anchor="middle" font-size="8" fill="#166534">Performance: O(limit) — constant at any depth!</text>
+
+    <!-- No drift -->
+    <rect x="15" y="208" width="300" height="80" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+    <text x="165" y="226" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">No Data Drift</text>
+    <text x="25" y="242" font-size="7.5" fill="#14532d">Page 1: [A, B, C, D]  cursor="D"</text>
+    <text x="25" y="255" font-size="7.5" fill="#dc2626">--- item B deleted ---</text>
+    <text x="25" y="268" font-size="7.5" fill="#14532d">Page 2 (after "D"): [E, F, G, H]</text>
+    <text x="25" y="281" font-size="7.5" fill="#16a34a">Item E is NOT skipped!</text>
+  </g>
+
+  <!-- ==================== KEYSET PAGINATION ==================== -->
+  <g transform="translate(715, 55)">
+    <rect width="330" height="300" rx="10" fill="#fff" stroke="#6366f1" stroke-width="2"/>
+    <rect width="330" height="32" rx="10" fill="#6366f1"/>
+    <rect y="22" width="330" height="10" fill="#6366f1"/>
+    <text x="165" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Keyset Pagination</text>
+
+    <!-- Data rows with compound sort -->
+    <text x="20" y="55" font-size="9" font-weight="600" fill="#475569">Multi-column sort (created_at, id):</text>
+
+    <g transform="translate(15, 62)">
+      <!-- Header -->
+      <text x="10" y="0" font-size="7" font-weight="600" fill="#64748b">date</text>
+      <text x="55" y="0" font-size="7" font-weight="600" fill="#64748b">id</text>
+      
+      <!-- Rows -->
+      <rect x="0" y="5" width="80" height="13" rx="2" fill="#e2e8f0"/>
+      <text x="10" y="15" font-size="7" fill="#475569">Mar 15</text><text x="55" y="15" font-size="7" fill="#475569">42</text>
+      
+      <rect x="0" y="20" width="80" height="13" rx="2" fill="#e2e8f0"/>
+      <text x="10" y="30" font-size="7" fill="#475569">Mar 15</text><text x="55" y="30" font-size="7" fill="#475569">41</text>
+      
+      <rect x="0" y="35" width="80" height="13" rx="2" fill="#eef2ff" stroke="#6366f1" stroke-width="0.5"/>
+      <text x="10" y="45" font-size="7" font-weight="600" fill="#4338ca">Mar 14</text><text x="55" y="45" font-size="7" font-weight="600" fill="#4338ca">40</text>
+      
+      <rect x="0" y="50" width="80" height="13" rx="2" fill="#e0e7ff" stroke="#6366f1" stroke-width="1"/>
+      <text x="10" y="60" font-size="7" font-weight="700" fill="#312e81">Mar 14</text><text x="55" y="60" font-size="7" font-weight="700" fill="#312e81">39</text>
+      
+      <rect x="0" y="65" width="80" height="13" rx="2" fill="#e0e7ff" stroke="#6366f1" stroke-width="1"/>
+      <text x="10" y="75" font-size="7" font-weight="700" fill="#312e81">Mar 13</text><text x="55" y="75" font-size="7" font-weight="700" fill="#312e81">38</text>
+
+      <!-- Cursor pointer -->
+      <text x="95" y="47" font-size="7" fill="#6366f1" font-weight="600">cursor here</text>
+      <line x1="85" y1="42" x2="92" y2="42" stroke="#6366f1" stroke-width="1.5" marker-end="url(#psP)"/>
+    </g>
+
+    <!-- SQL -->
+    <rect x="15" y="145" width="300" height="42" rx="4" fill="#1e293b"/>
+    <text x="25" y="161" font-size="8" fill="#93c5fd">WHERE</text><text x="60" y="161" font-size="8" fill="#e2e8f0"> (created_at, id)</text>
+    <text x="25" y="177" font-size="8" fill="#fbbf24">      &lt; ('2025-03-14', 40)</text>
+
+    <!-- Multi-column benefit -->
+    <rect x="15" y="198" width="300" height="90" rx="6" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+    <text x="165" y="216" text-anchor="middle" font-size="9" font-weight="700" fill="#4338ca">When to Use Keyset</text>
+    <text x="25" y="234" font-size="8" fill="#3730a3">Sort by multiple columns (date + id)</text>
+    <text x="25" y="250" font-size="8" fill="#3730a3">Handles duplicate sort values via tiebreaker</text>
+    <text x="25" y="266" font-size="8" fill="#3730a3">Needs composite index: (col1 DESC, col2 DESC)</text>
+    <text x="25" y="282" font-size="8" fill="#3730a3">Same O(limit) performance as cursor</text>
+  </g>
+
+  <!-- ==================== PERFORMANCE COMPARISON ==================== -->
+  <rect x="15" y="380" width="1030" height="160" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="530" y="405" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">Performance at Different Page Depths</text>
+
+  <!-- Chart area -->
+  <!-- Y axis -->
+  <line x1="80" y1="420" x2="80" y2="520" stroke="#64748b" stroke-width="1"/>
+  <text x="72" y="430" text-anchor="end" font-size="8" fill="#64748b">3500ms</text>
+  <text x="72" y="460" text-anchor="end" font-size="8" fill="#64748b">2000ms</text>
+  <text x="72" y="490" text-anchor="end" font-size="8" fill="#64748b">500ms</text>
+  <text x="72" y="520" text-anchor="end" font-size="8" fill="#64748b">2ms</text>
+  <text x="40" y="475" text-anchor="middle" font-size="9" font-weight="600" fill="#475569" transform="rotate(-90 40 475)">Query Time</text>
+
+  <!-- X axis -->
+  <line x1="80" y1="520" x2="530" y2="520" stroke="#64748b" stroke-width="1"/>
+  <text x="130" y="535" text-anchor="middle" font-size="8" fill="#64748b">Page 1</text>
+  <text x="230" y="535" text-anchor="middle" font-size="8" fill="#64748b">Page 100</text>
+  <text x="330" y="535" text-anchor="middle" font-size="8" fill="#64748b">Page 10K</text>
+  <text x="430" y="535" text-anchor="middle" font-size="8" fill="#64748b">Page 100K</text>
+  <text x="310" y="525" text-anchor="middle" font-size="9" font-weight="600" fill="#475569" transform="translate(0 25)">Page Depth</text>
+
+  <!-- Offset line (grows linearly) -->
+  <polyline points="130,518 230,510 330,470 430,425" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  <circle cx="130" cy="518" r="3" fill="#dc2626"/>
+  <circle cx="230" cy="510" r="3" fill="#dc2626"/>
+  <circle cx="330" cy="470" r="3" fill="#dc2626"/>
+  <circle cx="430" cy="425" r="3" fill="#dc2626"/>
+
+  <!-- Cursor line (stays flat) -->
+  <polyline points="130,518 230,518 330,518 430,518" fill="none" stroke="#10b981" stroke-width="2.5"/>
+  <circle cx="130" cy="518" r="3" fill="#10b981"/>
+  <circle cx="230" cy="518" r="3" fill="#10b981"/>
+  <circle cx="330" cy="518" r="3" fill="#10b981"/>
+  <circle cx="430" cy="518" r="3" fill="#10b981"/>
+
+  <!-- Legend for chart -->
+  <rect x="470" y="440" width="12" height="3" rx="1" fill="#dc2626"/>
+  <text x="488" y="444" font-size="9" fill="#dc2626">Offset: O(offset + limit)</text>
+  <rect x="470" y="458" width="12" height="3" rx="1" fill="#10b981"/>
+  <text x="488" y="462" font-size="9" fill="#10b981">Cursor: O(limit) — flat!</text>
+
+  <!-- Right side: when to use each -->
+  <g transform="translate(600, 415)">
+    <text x="0" y="5" font-size="11" font-weight="700" fill="#1e293b">When to Use Each</text>
+
+    <rect x="0" y="15" width="14" height="14" rx="3" fill="#3b82f6"/>
+    <text x="20" y="26" font-size="9" fill="#334155"><tspan font-weight="600">Offset:</tspan> Admin panels, search results, small datasets</text>
+
+    <rect x="0" y="38" width="14" height="14" rx="3" fill="#10b981"/>
+    <text x="20" y="49" font-size="9" fill="#334155"><tspan font-weight="600">Cursor:</tspan> Feeds, timelines, infinite scroll, large data</text>
+
+    <rect x="0" y="61" width="14" height="14" rx="3" fill="#6366f1"/>
+    <text x="20" y="72" font-size="9" fill="#334155"><tspan font-weight="600">Keyset:</tspan> Multi-column sorts, time-series, event logs</text>
+
+    <rect x="0" y="84" width="14" height="14" rx="3" fill="#f59e0b"/>
+    <text x="20" y="95" font-size="9" fill="#334155"><tspan font-weight="600">Page #:</tspan> Traditional web UIs with page controls</text>
+  </g>
+
+  <!-- ==================== BOTTOM: FRAMEWORK SUPPORT ==================== -->
+  <rect x="15" y="555" width="1030" height="150" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="530" y="580" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">Framework Implementation Comparison</text>
+
+  <!-- Django -->
+  <rect x="35" y="595" width="310" height="95" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <rect x="35" y="595" width="310" height="24" rx="8" fill="#10b981"/>
+  <rect x="35" y="611" width="310" height="8" fill="#10b981"/>
+  <text x="190" y="613" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Django (DRF)</text>
+  <text x="50" y="638" font-size="9" fill="#166534">PageNumberPagination</text>
+  <text x="50" y="653" font-size="9" fill="#166534">LimitOffsetPagination</text>
+  <text x="50" y="668" font-size="9" fill="#166534">CursorPagination</text>
+  <text x="50" y="681" font-size="8" font-weight="600" fill="#065f46">Built-in: 3 lines of config</text>
+
+  <!-- FastAPI -->
+  <rect x="375" y="595" width="310" height="95" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <rect x="375" y="595" width="310" height="24" rx="8" fill="#3b82f6"/>
+  <rect x="375" y="611" width="310" height="8" fill="#3b82f6"/>
+  <text x="530" y="613" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">FastAPI</text>
+  <text x="390" y="638" font-size="9" fill="#1e40af">Query() params + Pydantic models</text>
+  <text x="390" y="653" font-size="9" fill="#1e40af">Depends() for reusable pagination</text>
+  <text x="390" y="668" font-size="9" fill="#1e40af">Full control, async native</text>
+  <text x="390" y="681" font-size="8" font-weight="600" fill="#1e3a8a">Manual: ~50 lines</text>
+
+  <!-- Go -->
+  <rect x="715" y="595" width="310" height="95" rx="8" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <rect x="715" y="595" width="310" height="24" rx="8" fill="#6366f1"/>
+  <rect x="715" y="611" width="310" height="8" fill="#6366f1"/>
+  <text x="870" y="613" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Go</text>
+  <text x="730" y="638" font-size="9" fill="#3730a3">Generics for type-safe responses</text>
+  <text x="730" y="653" font-size="9" fill="#3730a3">database/sql or GORM + Gin</text>
+  <text x="730" y="668" font-size="9" fill="#3730a3">Best raw performance</text>
+  <text x="730" y="681" font-size="8" font-weight="600" fill="#312e81">Manual: ~80 lines</text>
+</svg>
